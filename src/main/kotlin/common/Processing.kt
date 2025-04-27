@@ -8,14 +8,25 @@ import io.genstrings.model.FormatArg
 // * U+XXXX Unicode characters e.g. \uXXXX
 // * Single quotes enclosed in double quotes ("This'll work", for example)
 // * Whitespace preservation: e.g. <string>" &#32; &#8200; &#8195;"</string> or <string> \u0032 \u8200 \u8195</string>
+private val androidEscapeChars = listOf(
+    "\\@" to "@",
+    "\\?" to "?",
+    "\\n" to "\n",
+    "\\t" to "\t",
+    "\\'" to "'",
+    "\\\"" to "\"",
+)
+
 fun String.decodeRawAndroidString(): String {
-    return this
-        .replace("\\@", "@")
-        .replace("\\?", "?")
-        .replace("\\n", "\n")
-        .replace("\\t", "\t")
-        .replace("\\'", "'")
-        .replace("\\\"", "\"")
+    return androidEscapeChars.fold(this) { acc, (escaped, original) ->
+        acc.replace(escaped, original)
+    }
+}
+
+fun String.encodeRawAndroidString(): String {
+    return androidEscapeChars.fold(this) { acc, (escaped, original) ->
+        acc.replace(original, escaped)
+    }
 }
 
 // https://developer.android.com/guide/topics/resources/string-resource#formatting-strings
@@ -35,4 +46,14 @@ fun String.decodeAndroidFormatArgs(): Pair<String, List<FormatArg>> {
         formatArgs += FormatArg(position, type)
     }
     return decoded to formatArgs
+}
+
+fun String.encodeAndroidFormatArgs(formatArgs: List<FormatArg>): String {
+    var encoded = this
+    "\\{(\\d+)}".toRegex().findAll(this).forEach { match ->
+        val position = match.groupValues[1].toInt()
+        val type = formatArgs.find { it.position == position }?.type ?: "s"
+        encoded = encoded.replaceFirst(match.value, "%${position}$${type}")
+    }
+    return encoded
 }

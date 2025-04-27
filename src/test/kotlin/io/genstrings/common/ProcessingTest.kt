@@ -36,4 +36,17 @@ class ProcessingTest {
         val output = encodedFormatArgs.decodeAndroidFormatArgs()
         assertEquals(decodedFormatArgs, output)
     }
+
+    @Test
+    fun `encode android escape sequences`() {
+        val output = decodedRawText.encodeRawAndroidString()
+        assertEquals(encodedRawText, output)
+    }
+
+    @Test
+    fun `encode android format args`() {
+        val (text, args) = decodedFormatArgs
+        val output = text.encodeAndroidFormatArgs(args)
+        assertEquals(encodedFormatArgs, output)
+    }
 }
