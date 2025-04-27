@@ -7,18 +7,13 @@ import com.charleskorn.kaml.YamlSingleLineStringStyle
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StringResource(
-    val translatable: Boolean? = null,
-
-    val name: String,
+data class Translation(
+    val source: SourceKey,
 
     @YamlSingleLineStringStyle(SingleLineStringStyle.Plain)
     @YamlMultiLineStringStyle(MultiLineStringStyle.Literal)
-    val text: String,
+    val translation: String,
 
-    @YamlSingleLineStringStyle(SingleLineStringStyle.Plain)
-    @YamlMultiLineStringStyle(MultiLineStringStyle.Literal)
-    val context: String? = null,
-
-    val formatArgs: List<FormatArg> = emptyList()
+    // TODO: use custom KSerializer to persist date / time
+    val timestamp: String,
 )

@@ -12,7 +12,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.createParentDirectories
 
-fun templateImpl(sourcePath: Path) {
+fun template(sourcePath: Path) {
     val xml = Files.newInputStream(sourcePath).use {
         XmlMapper().readTree(it).get("string")
     }
@@ -32,16 +32,20 @@ fun templateImpl(sourcePath: Path) {
         require(name != null && rawText != null) {
             "Invalid string in source file: $node"
         }
-        val (text, _) = rawText
+        val (text, formatArgs) = rawText
             .decodeRawAndroidString()
             .decodeAndroidFormatArgs()
         StringResource(
             name = name,
             text = text,
             translatable = translatable,
+            formatArgs = formatArgs,
         )
     }.let {
-        StringsTemplate(it)
+        StringsTemplate(
+            strings = it,
+            targetLanguages = emptyList(),
+        )
     }
     val templatePath = resolveTemplatePath(sourcePath)
     println("Writing template file to: $templatePath")
