@@ -13,45 +13,5 @@ import java.nio.file.Path
 import kotlin.io.path.createParentDirectories
 
 fun template(sourcePath: Path) {
-    val xml = Files.newInputStream(sourcePath).use {
-        XmlMapper().readTree(it).get("string")
-    }
-    val elements = when {
-        xml == null -> emptyList()
-        xml.isArray -> xml.elements().asSequence().toList()
-        else -> listOf(xml)
-    }
-    if (elements.isEmpty()) {
-        println("Source file doesn't contain any Android string resources")
-        return
-    }
-    val template = elements.map { node ->
-        val name = node.get("name")?.asText()
-        val rawText = node.get("")?.asText()
-        val translatable = node.get("translatable")?.asBoolean()
-        require(name != null && rawText != null) {
-            "Invalid string in source file: $node"
-        }
-        val (text, formatArgs) = rawText
-            .decodeRawAndroidString()
-            .decodeAndroidFormatArgs()
-        StringResource(
-            name = name,
-            text = text,
-            translatable = translatable,
-            formatArgs = formatArgs,
-        )
-    }.let {
-        StringsTemplate(
-            strings = it,
-            targetLanguages = emptyList(),
-        )
-    }
-    val templatePath = resolveTemplatePath(sourcePath)
-    println("Writing template file to: $templatePath")
 
-    templatePath.createParentDirectories()
-    Files.newOutputStream(templatePath).use {
-        Serializers.yaml.encodeToStream(template, it)
-    }
 }
