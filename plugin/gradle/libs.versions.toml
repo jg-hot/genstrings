@@ -1,0 +1,15 @@
+[versions]
+agp = "8.9.2"
+kotlin = "2.0.21"
+
+jackson = "2.19.0"
+kaml = "0.77.0"
+
+[libraries]
+agp-api = { group = "com.android.tools.build", name = "gradle-api", version.ref = "agp" }
+jackson = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-xml", version.ref = "jackson" }
+kaml = { group = "com.charleskorn.kaml", name = "kaml", version.ref = "kaml" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

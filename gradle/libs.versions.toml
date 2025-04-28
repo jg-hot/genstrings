@@ -1,0 +1,9 @@
+[versions]
+gradle = "8.12"
+# this should match the agp version in plugin/gradle/libs.versions.toml
+agp = "8.9.2"
+kotlin = "2.0.21"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

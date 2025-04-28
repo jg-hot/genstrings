@@ -1,7 +1,6 @@
-rootProject.name = "genstrings"
+rootProject.name = "plugin"
 
 pluginManagement {
-    includeBuild("plugin")
     repositories {
         gradlePluginPortal()
         google()
@@ -10,11 +9,8 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
     }
 }
-
-include(":app")
