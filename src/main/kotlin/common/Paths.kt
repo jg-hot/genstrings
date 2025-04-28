@@ -19,7 +19,17 @@ fun resolveTemplatePath(sourcePath: Path): Path {
     return dir / name
 }
 
-fun resolveTranslationListPath(templatePath: Path, language: Language) : Path {
+fun resolveTranslationListPath(templatePath: Path, language: Language): Path {
     val name = "${templatePath.nameWithoutExtension}-${language.locale}.yaml"
     return templatePath.parent / name
+}
+
+// pass language = null to indicate the untranslated (default) strings.xml
+fun resolveStringsXmlPath(templatePath: Path, language: Language?): Path {
+    val name = "${templatePath.nameWithoutExtension}.xml"
+    val qualifier = when(language) {
+        null -> "values"
+        else -> "values-${language.locale}"
+    }
+    return templatePath.parent.parent / "res" / qualifier / name
 }
