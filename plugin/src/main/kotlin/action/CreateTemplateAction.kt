@@ -15,7 +15,7 @@ import kotlin.io.path.createParentDirectories
 class CreateTemplateAction(
     private val sourcePath: Path,
 ) {
-    fun run() {
+    fun execute() {
         val xml = Files.newInputStream(sourcePath).use {
             XmlMapper().readTree(it)
         }

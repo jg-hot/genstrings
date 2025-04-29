@@ -1,0 +1,6 @@
+strings:
+- name: "test_string"
+  text: Test Message
+- name: "test_string_2"
+  text: Test Message 3
+target_languages: []

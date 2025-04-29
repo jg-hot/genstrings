@@ -17,6 +17,26 @@ abstract class CreateTemplateTask : DefaultTask() {
         sourcePath = project.layout.projectDirectory.file(value).asFile.toPath()
     }
 
+    // TODO: make main description shorter (one line) as it shows in ./gradlew tasks
+    init {
+        group = "Genstrings"
+        description = """
+            Create a template strings.yaml from existing strings.xml
+            
+            * The new strings.yaml will be registered in the build and will be the new source
+              of truth for the strings in that file
+              
+            * The existing strings.xml will be overwritten on the next regular build via
+              :genstringsUpdate
+              
+            * Before running another build, sync your comments and other metadata between
+              strings.xml -> strings.yaml and double check strings.yaml for correctness
+              
+            * Ensure the existing file contains *only* <string> tags, as other resource
+              types (e.g. <color>) will not be preserved
+        """.trimIndent()
+    }
+
     @TaskAction
     fun run() {
         if (!::sourcePath.isInitialized) {
@@ -25,6 +45,6 @@ abstract class CreateTemplateTask : DefaultTask() {
         if (!Files.exists(sourcePath)) {
             throw IllegalArgumentException("Strings.xml file not found at: $sourcePath")
         }
-        CreateTemplateAction(sourcePath).run()
+        CreateTemplateAction(sourcePath).execute()
     }
 }

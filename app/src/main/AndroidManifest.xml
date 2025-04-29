@@ -13,5 +13,6 @@
          limitations under the License.
     -->
     <application android:label="Minimal">
+        <activity android:name=".MainActivity"></activity>
     </application>
 </manifest>

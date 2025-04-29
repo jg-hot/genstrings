@@ -19,9 +19,10 @@ fun resolveTemplatePath(sourcePath: Path): Path {
     return dir / name
 }
 
-fun resolveTranslationListPath(templatePath: Path, language: Language): Path {
+@Deprecated("")
+fun resolveTranslationsYamlPath(templatePath: Path, language: Language): Path {
     val name = "${templatePath.nameWithoutExtension}-${language.locale}.yaml"
-    return templatePath.parent / name
+    return templatePath.parent / "translations" / name
 }
 
 // pass language = null to indicate the untranslated (default) strings.xml

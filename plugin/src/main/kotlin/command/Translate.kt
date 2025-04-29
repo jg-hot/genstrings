@@ -6,7 +6,7 @@ import io.genstrings.common.Serializers
 import io.genstrings.common.encodeAndroidFormatArgs
 import io.genstrings.common.encodeRawAndroidString
 import io.genstrings.common.resolveStringsXmlPath
-import io.genstrings.common.resolveTranslationListPath
+import io.genstrings.common.resolveTranslationsYamlPath
 import io.genstrings.model.Language
 import io.genstrings.model.StringResource
 import io.genstrings.model.StringsTemplate
@@ -29,13 +29,13 @@ fun translate(
         Serializers.yaml.decodeFromStream<StringsTemplate>(it)
     }
     if (updateSource) {
-        writeAndroidStringsXml(
-            templatePath = templatePath,
-            language = null,
-            items = template.strings,
-            provideStringResource = { it },
-            provideValue = { it.text },
-        )
+//        writeAndroidStringsXml(
+//            templatePath = templatePath,
+//            language = null,
+//            items = template.strings,
+//            provideStringResource = { it },
+//            provideValue = { it.text },
+//        )
     }
     val commands = template.targetLanguages.map {
         buildTranslationCommands(templatePath, template, it)
@@ -66,13 +66,13 @@ private fun translateImpl(
             language = command.language,
             output = outputTranslations
         )
-        writeAndroidStringsXml(
-            templatePath = templatePath,
-            language = command.language,
-            items = outputTranslations,
-            provideStringResource = { it.string },
-            provideValue = { it.translation?.translation }
-        )
+//        writeAndroidStringsXml(
+//            templatePath = templatePath,
+//            language = command.language,
+//            items = outputTranslations,
+//            provideStringResource = { it.string },
+//            provideValue = { it.translation?.translation }
+//        )
     }
     // write once to sync strings which were removed, re-ordered or have changed metadata
     writeTranslationsImpl()
@@ -106,7 +106,7 @@ private fun writeTranslationList(
     language: Language,
     output: List<TranslationOutput>,
 ) {
-    val translationListPath = resolveTranslationListPath(templatePath, language)
+    val translationListPath = resolveTranslationsYamlPath(templatePath, language)
     val data = TranslationList(
         output.mapNotNull { it.translation }
     )
@@ -116,40 +116,14 @@ private fun writeTranslationList(
 }
 
 // TODO: add `translatable` flag in original file only
-private fun <T> writeAndroidStringsXml(
-    templatePath: Path,
-    language: Language?,
-    items: List<T>,
-    provideStringResource: (T) -> StringResource,
-    provideValue: (T) -> String?,
-) {
-    val xmlPath = resolveStringsXmlPath(templatePath, language)
-    xmlPath.createParentDirectories()
 
-    OutputStreamWriter(Files.newOutputStream(xmlPath)).use {
-        it.append("<resources>")
-        it.appendLine()
-        for (item in items) {
-            val string = provideStringResource(item)
-            val value = provideValue(item)
-            if (value == null) {
-                continue
-            }
-            it.append("    ")
-            it.append(buildAndroidStringXmlEntry(string, value))
-            it.appendLine()
-        }
-        it.append("</resources>")
-        it.appendLine()
-    }
-}
 
 private fun buildTranslationCommands(
     templatePath: Path,
     template: StringsTemplate,
     language: Language,
 ): TranslationCommand {
-    val outputPath = resolveTranslationListPath(templatePath, language)
+    val outputPath = resolveTranslationsYamlPath(templatePath, language)
 
     val existing = if (Files.exists(outputPath)) {
         Files.newInputStream(outputPath).use {
@@ -183,16 +157,6 @@ private fun buildTranslationDirectives(
             )
         }
     }
-}
-
-private fun buildAndroidStringXmlEntry(string: StringResource, value: String) = buildString {
-    append("<string name=\"${string.name}\">")
-    append(
-        value
-            .encodeAndroidFormatArgs(string.formatArgs)
-            .encodeRawAndroidString()
-    )
-    append("</string>")
 }
 
 data class TranslationCommand(
