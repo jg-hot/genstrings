@@ -18,8 +18,8 @@ import kotlin.io.path.nameWithoutExtension
 
 class ProcessStringsYamlToXmlAction(
     private val templatePath: Path,
+    private val locales: Set<String>,
     private val outputDir: Path,
-    private val languages: List<Language> = listOf(Language("Spanish", "es")),
 ) {
     private val name = "${templatePath.nameWithoutExtension}.xml"
 
@@ -31,7 +31,7 @@ class ProcessStringsYamlToXmlAction(
 
     fun execute() {
         writeTemplateXml()
-        languages.forEach {
+        locales.forEach {
             writeTranslationXml(it)
         }
     }
@@ -55,16 +55,16 @@ class ProcessStringsYamlToXmlAction(
     }
 
     private fun writeTranslationXml(
-        language: Language,
+        locale: String,
     ) {
         val inputPath = templatePath.parent
             .resolve("translations")
             .resolve(
-                "${templatePath.nameWithoutExtension}-${language.locale}.yaml"
+                "${templatePath.nameWithoutExtension}-${locale}.yaml"
             )
 
         val outputPath = outputDir
-            .resolve("values-${language.locale}")
+            .resolve("values-${locale}")
             .resolve(name)
             .apply {
                 createParentDirectories()

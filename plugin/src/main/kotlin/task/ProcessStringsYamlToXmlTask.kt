@@ -4,6 +4,8 @@ import io.genstrings.action.ProcessStringsYamlToXmlAction
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.SetProperty
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -15,6 +17,9 @@ abstract class ProcessStringsYamlToXmlTask : DefaultTask() {
 
     @get:InputFiles
     abstract val translationYamlFiles: ConfigurableFileCollection
+
+    @get:Input
+    abstract val locales: SetProperty<String>
 
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
@@ -30,6 +35,7 @@ abstract class ProcessStringsYamlToXmlTask : DefaultTask() {
         sourceYamlFiles.forEach { sourceYamlFile ->
             ProcessStringsYamlToXmlAction(
                 templatePath = sourceYamlFile.toPath(),
+                locales = locales.get(),
                 outputDir = outputDir.get().asFile.toPath(),
             ).execute()
         }

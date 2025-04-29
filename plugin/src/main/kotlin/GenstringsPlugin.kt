@@ -1,6 +1,7 @@
 package io.genstrings
 
 import com.android.build.api.variant.AndroidComponentsExtension
+import io.genstrings.plugin.GenstringsExtension.Companion.registerExtension
 import io.genstrings.task.CreateTemplateTask
 import io.genstrings.task.ProcessStringsYamlToXmlTask
 import io.genstrings.task.UpdateTranslationsYamlTask
@@ -13,6 +14,13 @@ class GenstringsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         val androidComponents = target.extensions.getByType(AndroidComponentsExtension::class.java)
+        val extension = target.registerExtension()
+
+        val locales = target.providers.provider {
+            extension.languages.map {
+                it.name
+            }.toSet()
+        }
 
         val stringsDir = target.layout
             .projectDirectory
@@ -38,6 +46,7 @@ class GenstringsPlugin : Plugin<Project> {
             "updateTranslationsYaml", UpdateTranslationsYamlTask::class.java
         ) { task ->
             task.sourceYamlFiles.from(sourceYamlFiles)
+            task.locales.set(locales)
             task.translationsDir.set(translationsDir)
         }
 
@@ -52,6 +61,7 @@ class GenstringsPlugin : Plugin<Project> {
             ) { task ->
                 task.sourceYamlFiles.from(sourceYamlFiles)
                 task.translationYamlFiles.from(translationYamlFiles)
+                task.locales.set(locales)
                 task.outputDir.set(outputDir)
                 task.dependsOn(updateTask)
             }

@@ -3,7 +3,6 @@ package io.genstrings.action
 import com.charleskorn.kaml.decodeFromStream
 import com.charleskorn.kaml.encodeToStream
 import io.genstrings.common.Serializers
-import io.genstrings.model.Language
 import io.genstrings.model.StringsTemplate
 import io.genstrings.model.TranslationList
 import io.genstrings.model.toSourceKey
@@ -14,15 +13,22 @@ import kotlin.io.path.nameWithoutExtension
 // TODO: make language configurable in app build.gradle.kts
 class UpdateTranslationsYamlAction(
     private val templatePath: Path,
+    private val locales: Set<String>,
     private val outputDir: Path,
-    private val language: Language = Language("Spanish", "es"),
 ) {
+    val template = Files.newInputStream(templatePath).use {
+        Serializers.yaml.decodeFromStream<StringsTemplate>(it)
+    }
+
     fun execute() {
-        val template = Files.newInputStream(templatePath).use {
-            Serializers.yaml.decodeFromStream<StringsTemplate>(it)
+        locales.forEach {
+            updateTranslationsYaml(it)
         }
+    }
+
+    private fun updateTranslationsYaml(locale: String) {
         val outputPath = outputDir.resolve(
-            "${templatePath.nameWithoutExtension}-${language.locale}.yaml"
+            "${templatePath.nameWithoutExtension}-${locale}.yaml"
         )
         val existing = if (Files.exists(outputPath)) {
             Files.newInputStream(outputPath).use {
