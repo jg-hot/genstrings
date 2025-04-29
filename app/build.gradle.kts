@@ -19,3 +19,14 @@ android {
         jvmTarget = "17"
     }
 }
+
+genstrings {
+    languages {
+        create("es") {
+            description = "Spanish"
+        }
+        create("fr") {
+            description = "French"
+        }
+    }
+}

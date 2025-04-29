@@ -11,9 +11,11 @@ open class LanguageHandler @Inject constructor(
 ) : Named {
     override fun getName() = name
 
-    internal val description: Property<String> = objects.property(String::class.java)
+    private val descriptionImpl: Property<String> = objects.property(String::class.java)
 
-    fun description(description: String) {
-        this.description.set(description)
-    }
+    var description: String?
+        get() = descriptionImpl.orNull
+        set(value) {
+            descriptionImpl.set(value)
+        }
 }
