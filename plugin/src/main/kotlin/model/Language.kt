@@ -6,4 +6,4 @@ import kotlinx.serialization.Serializable
 data class Language(
     val name: String,
     val locale: String,
-)
+) : java.io.Serializable

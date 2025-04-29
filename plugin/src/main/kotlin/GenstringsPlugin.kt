@@ -4,6 +4,7 @@ import com.android.build.api.variant.AndroidComponentsExtension
 import io.genstrings.plugin.GenstringsExtension.Companion.registerExtension
 import io.genstrings.task.CreateTemplateTask
 import io.genstrings.task.ProcessStringsYamlToXmlTask
+import io.genstrings.task.TranslateTask
 import io.genstrings.task.UpdateTranslationsYamlTask
 import io.genstrings.util.cap
 import org.gradle.api.Plugin
@@ -14,12 +15,23 @@ class GenstringsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         val androidComponents = target.extensions.getByType(AndroidComponentsExtension::class.java)
-        val extension = target.registerExtension()
+        val extension = target.registerExtension().apply {
+            configFileImpl.convention(
+                target.layout.projectDirectory
+                    .dir(".genstrings")
+                    .file("config.yaml")
+            )
+        }
 
         val locales = target.providers.provider {
             extension.languages.map {
                 it.name
             }.toSet()
+        }
+        val languages = target.providers.provider {
+            extension.languages.map {
+                it.toLanguage()
+            }
         }
 
         val stringsDir = target.layout
@@ -69,6 +81,34 @@ class GenstringsPlugin : Plugin<Project> {
                 processTask,
                 ProcessStringsYamlToXmlTask::outputDir,
             )
+        }
+
+        target.tasks.register(
+            "genstringsTranslate", TranslateTask::class.java
+        ) {
+            it.description = "Generate translations for all languages"
+            it.configFile.set(extension.configFile)
+            it.sourceYamlFiles.from(sourceYamlFiles)
+            it.languages.set(languages)
+        }
+        extension.languages.all { entry ->
+            val language = target.providers.provider {
+                setOf(entry.toLanguage())
+            }
+            val taskName = buildString {
+                append("genstringsTranslate")
+                entry.name.split("-").forEach {
+                    append(it.cap())
+                }
+            }
+            target.tasks.register(
+                taskName, TranslateTask::class.java
+            ) {
+                it.description = "Generate translations for locale: ${entry.name}"
+                it.configFile.set(extension.configFile)
+                it.sourceYamlFiles.from(sourceYamlFiles)
+                it.languages.set(language)
+            }
         }
     }
 }
