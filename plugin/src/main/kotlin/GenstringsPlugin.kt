@@ -85,11 +85,12 @@ class GenstringsPlugin : Plugin<Project> {
 
         target.tasks.register(
             "genstringsTranslate", TranslateTask::class.java
-        ) {
-            it.description = "Generate translations for all languages"
-            it.configFile.set(extension.configFile)
-            it.sourceYamlFiles.from(sourceYamlFiles)
-            it.languages.set(languages)
+        ) { task ->
+            task.description = "Generate translations for all languages"
+            task.configFile.set(extension.configFile)
+            task.sourceYamlFiles.from(sourceYamlFiles)
+            task.languages.set(languages)
+            task.dependsOn(updateTask)
         }
         extension.languages.all { entry ->
             val language = target.providers.provider {
@@ -103,11 +104,12 @@ class GenstringsPlugin : Plugin<Project> {
             }
             target.tasks.register(
                 taskName, TranslateTask::class.java
-            ) {
-                it.description = "Generate translations for locale: ${entry.name}"
-                it.configFile.set(extension.configFile)
-                it.sourceYamlFiles.from(sourceYamlFiles)
-                it.languages.set(language)
+            ) { task ->
+                task.description = "Generate translations for locale: ${entry.name}"
+                task.configFile.set(extension.configFile)
+                task.sourceYamlFiles.from(sourceYamlFiles)
+                task.languages.set(language)
+                task.dependsOn(updateTask)
             }
         }
     }

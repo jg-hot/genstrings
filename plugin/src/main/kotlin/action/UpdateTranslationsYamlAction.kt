@@ -16,7 +16,7 @@ class UpdateTranslationsYamlAction(
     private val locales: Set<String>,
     private val outputDir: Path,
 ) {
-    val template = Files.newInputStream(templatePath).use {
+    private val template = Files.newInputStream(templatePath).use {
         Serializers.yaml.decodeFromStream<StringsTemplate>(it)
     }
 
@@ -38,7 +38,7 @@ class UpdateTranslationsYamlAction(
 
         val existingByKey = existing.associateBy { it.source }
         val output = TranslationList(
-            template.strings.mapNotNull { string ->
+            template.translatableStrings.mapNotNull { string ->
                 existingByKey[string.toSourceKey()]
             }
         )
@@ -47,3 +47,4 @@ class UpdateTranslationsYamlAction(
         }
     }
 }
+

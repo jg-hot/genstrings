@@ -7,4 +7,9 @@ data class StringsTemplate(
     val strings: List<StringResource>,
 
     val targetLanguages: List<Language>,
-)
+) {
+    val translatableStrings: List<StringResource>
+        get() = strings.filter {
+            it.translatable != false
+        }
+}

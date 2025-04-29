@@ -1,5 +1,6 @@
 package io.genstrings.task
 
+import io.genstrings.action.TranslateAction
 import io.genstrings.model.Language
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
@@ -26,9 +27,12 @@ abstract class TranslateTask : DefaultTask() {
 
     @TaskAction
     fun run() {
-        println("config file: ${configFile.get().asFile.absolutePath}")
-        languages.get().forEach {
-            println("translate language: $it")
-        }
+        TranslateAction(
+            configFile = configFile.get().asFile.toPath(),
+            templateFiles = sourceYamlFiles.toList().map { it.toPath() },
+            languages = languages.get().toList().sortedBy {
+                it.locale
+            }
+        ).execute()
     }
 }
