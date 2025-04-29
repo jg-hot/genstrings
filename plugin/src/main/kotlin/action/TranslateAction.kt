@@ -19,8 +19,6 @@ import kotlin.io.path.nameWithoutExtension
 
 // TODO: serialize timestamp properly
 
-// TODO: remove target languages from StringsTemplate
-
 // TODO: ensure newlines in .yaml multline strings are handled properly
 
 // TODO: double check escape characters (?'s need to be escaped?)

@@ -48,10 +48,7 @@ class CreateTemplateAction(
                 formatArgs = formatArgs,
             )
         }.let {
-            StringsTemplate(
-                strings = it,
-                targetLanguages = emptyList(),
-            )
+            StringsTemplate(it)
         }
         val templatePath = resolveTemplatePath(sourcePath)
         println("Writing template file to: $templatePath")
