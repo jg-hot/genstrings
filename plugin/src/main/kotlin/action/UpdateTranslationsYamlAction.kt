@@ -37,11 +37,8 @@ class UpdateTranslationsYamlAction(
         } else emptyList()
 
         val existingByKey = existing.associateBy { it.source }
-        val output = TranslationList(
-            template.translatableStrings.mapNotNull { string ->
-                existingByKey[string.toSourceKey()]
-            }
-        )
+        val output = template.buildTranslationList(existingByKey)
+
         Files.newOutputStream(outputPath).use {
             Serializers.yaml.encodeToStream(output, it)
         }

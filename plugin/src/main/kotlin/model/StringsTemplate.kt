@@ -12,4 +12,14 @@ data class StringsTemplate(
         get() = strings.filter {
             it.translatable != false
         }
+
+    fun buildTranslationList(existingTranslations: Map<SourceKey, Translation>): TranslationList {
+        val outTranslations = this.translatableStrings.mapNotNull { string ->
+            val translation = existingTranslations[string.toSourceKey()]
+            translation?.copy(
+                name = string.name
+            )
+        }
+        return TranslationList(outTranslations)
+    }
 }

@@ -17,13 +17,13 @@ import kotlin.io.path.nameWithoutExtension
 
 // TODO: store prompt hash alongside translation
 
-// TODO: store string name in translation strings.yaml?
-
 // TODO: serialize timestamp properly
 
 // TODO: remove target languages from StringsTemplate
 
 // TODO: ensure newlines in .yaml multline strings are handled properly
+
+// TODO: double check escape characters (?'s need to be escaped?)
 class TranslateAction(
     private val configFile: Path,
     private val templateFiles: List<Path>,
@@ -67,12 +67,8 @@ class TranslateAction(
         // checkpoint: write the entire translation list, respecting original template order
         val onComplete: (Translation) -> Unit = { translation ->
             outputTranslations[translation.source] = translation
+            val output = template.buildTranslationList(outputTranslations)
 
-            val output = TranslationList(
-                template.translatableStrings.mapNotNull { string ->
-                    outputTranslations[string.toSourceKey()]
-                }
-            )
             Files.newOutputStream(translationFile).use {
                 Serializers.yaml.encodeToStream(output, it)
             }
@@ -83,7 +79,7 @@ class TranslateAction(
         }
         return untranslatedStrings.map {
             TranslationDirective(
-                source = it,
+                string = it,
                 language = language,
                 translationFile = translationFile,
                 onComplete = onComplete,
@@ -95,8 +91,14 @@ class TranslateAction(
         val translator: Translator = UuidTestTranslator()
         directives.forEach { directive ->
             try {
-                println("Translate: ${directive.source.text}")
-                val translation = translator.translate(directive.source)
+                println("Translate: ${directive.string.text}")
+                val translatedText = translator.translate(directive.string)
+                val translation = Translation(
+                    name = directive.string.name,
+                    source = directive.string.toSourceKey(),
+                    translation = translatedText,
+                    timestamp = System.currentTimeMillis().toString()
+                )
                 directive.onComplete(translation)
                 println("Done")
                 readln()
@@ -108,7 +110,7 @@ class TranslateAction(
 }
 
 private data class TranslationDirective(
-    val source: StringResource,
+    val string: StringResource,
     val language: Language,
     val translationFile: Path,
     val onComplete: (Translation) -> Unit,
