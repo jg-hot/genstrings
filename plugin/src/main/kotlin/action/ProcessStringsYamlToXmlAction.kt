@@ -79,7 +79,7 @@ class ProcessStringsYamlToXmlAction(
                 outputPath = outputPath,
                 items = translations,
                 provideStringResource = { stringsByKey[it.source]!! },
-                provideValue = { it.translation + it }
+                provideValue = { it.translation }
             )
         }
     }
