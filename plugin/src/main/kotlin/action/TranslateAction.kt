@@ -3,12 +3,14 @@ package io.genstrings.action
 import com.charleskorn.kaml.decodeFromStream
 import com.charleskorn.kaml.encodeToStream
 import io.genstrings.common.Serializers
+import io.genstrings.model.GenstringsConfig
 import io.genstrings.model.Language
 import io.genstrings.model.StringResource
 import io.genstrings.model.StringsTemplate
 import io.genstrings.model.Translation
 import io.genstrings.model.TranslationList
 import io.genstrings.model.toSourceKey
+import io.genstrings.translator.OpenAiTranslator
 import io.genstrings.translator.UuidTestTranslator
 import io.genstrings.translator.Translator
 import java.nio.file.Files
@@ -24,6 +26,7 @@ class TranslateAction(
     private val templateFiles: List<Path>,
     private val languages: List<Language>,
 ) {
+    private val translator = buildTranslator()
 
     fun execute() {
         val directives = templateFiles.flatMap { templateFile ->
@@ -38,6 +41,21 @@ class TranslateAction(
         readln()
 
         translate(directives)
+    }
+
+    private fun buildTranslator(): Translator {
+        val config = try {
+            Files.newInputStream(configFile).use {
+                Serializers.yaml.decodeFromStream<GenstringsConfig>(it)
+            }
+        } catch (ex: Exception) {
+            println("Failed to parse config.yaml: $configFile")
+            throw ex
+        }
+        require(config.openAi != null) {
+            "config.yaml file doesn't include an open_ai configurations"
+        }
+        return OpenAiTranslator(config.openAi)
     }
 
     private fun buildTranslationDirectives(
@@ -83,11 +101,13 @@ class TranslateAction(
     }
 
     private fun translate(directives: List<TranslationDirective>) {
-        val translator: Translator = UuidTestTranslator()
         directives.forEach { directive ->
             try {
                 println("Translate: ${directive.string.text}")
-                val translatedText = translator.translate(directive.string)
+                val translatedText = translator.translate(
+                    string = directive.string,
+                    language = directive.language,
+                )
                 val translation = Translation(
                     name = directive.string.name,
                     source = directive.string.toSourceKey(),

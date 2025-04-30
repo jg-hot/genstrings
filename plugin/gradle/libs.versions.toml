@@ -4,11 +4,15 @@ kotlin = "2.0.21"
 
 jackson = "2.19.0"
 kaml = "0.77.0"
+ktor = "3.1.2"
+openai = "4.0.1"
 
 [libraries]
 agp-api = { group = "com.android.tools.build", name = "gradle-api", version.ref = "agp" }
 jackson = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-xml", version.ref = "jackson" }
 kaml = { group = "com.charleskorn.kaml", name = "kaml", version.ref = "kaml" }
+ktor = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+openai = { group = "com.aallam.openai", name = "openai-client", version.ref = "openai" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

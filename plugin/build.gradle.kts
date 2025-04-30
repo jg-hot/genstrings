@@ -24,6 +24,8 @@ dependencies {
     compileOnly(libs.agp.api)
     implementation(libs.jackson)
     implementation(libs.kaml)
+    implementation(libs.ktor)
+    implementation(libs.openai)
     testImplementation(kotlin("test"))
 }
 
