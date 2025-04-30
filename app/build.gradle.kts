@@ -25,8 +25,8 @@ genstrings {
         create("es") {
             description = "Spanish"
         }
-        create("fr") {
-            description = "French"
+        create("zh") {
+            description = "Chinese"
         }
     }
 }

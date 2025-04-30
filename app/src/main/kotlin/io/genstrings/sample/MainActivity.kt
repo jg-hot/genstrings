@@ -9,7 +9,11 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        R.string.test_string
-        R.string.test_string_2
+        listOf(
+            R.string.hello, R.string.no_worries, R.string.submit_button,
+            R.string.pro_brand_name, R.string.format_args, R.string.contextual_format_args
+        ).forEach {
+            Log.i("Genstrings", getString(it))
+        }
     }
 }

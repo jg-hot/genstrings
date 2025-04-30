@@ -1,6 +1,59 @@
 strings:
-- name: "test_string"
-  text: Test Message
-- name: "test_string_2"
-  text: Test Message 3
-target_languages: []
+
+# strings.yaml is designed to be easy to read and write:
+- name: "hello"
+  text: Welcome to the App!
+
+# Escape sequences are not required. This will be post-processed properly.
+- name: "no_worries"
+  text: You don't have to worry about "escape" sequences anymore.
+
+# You can add context and instructions like this:
+- name: "submit_button"
+  text: Submit
+  context: >
+    This text appears on a button with limited space. Try to keep it under 8 characters
+    if possible.
+
+- name: "pro_brand_name"
+  text: My Awesome App Pro
+  context: >
+    My Awesome App is a brand name, keep it as is. Translate the rest of the string as usual.
+
+# It's also easy to add positional arguments. These will be post processed -> i.e. %1$s
+- name: "format_args"
+  text: You will be charged {1} each {2}.
+
+  # You can optionally declare a type specifier, which defaults to "s"
+  format_args:
+    - position: 1
+      type: "f"
+
+# You can add also add context to individual positional arguments:
+- name: "contextual_format_args"
+  text: What's your favorite {1} {2}?
+
+  format_args:
+    - position: 1
+      context: Refers to an adjective
+    - position: 2
+      context: Refers to a noun
+
+# Create non-translatable strings like this:
+- name: "api_key"
+  text: "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
+  translatable: false
+
+# Add multiline strings using a plain .yaml multi-line block:
+- name: "multi_line"
+  translatable: false
+  text: |
+    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+    
+    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
+    
+    Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
+    
+    Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+# Trailing newlines will be stripped. If you want a trailing new line, just add \n at the end.
