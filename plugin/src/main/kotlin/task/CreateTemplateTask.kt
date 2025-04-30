@@ -12,7 +12,6 @@ abstract class CreateTemplateTask : DefaultTask() {
     private lateinit var sourcePath: Path
 
     @Option(option = "path", description = "Path to existing strings.xml file")
-    @Suppress("unused")
     fun setTemplatePath(value: String) {
         sourcePath = project.layout.projectDirectory.file(value).asFile.toPath()
     }

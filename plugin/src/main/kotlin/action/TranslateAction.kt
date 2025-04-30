@@ -11,20 +11,26 @@ import io.genstrings.model.Translation
 import io.genstrings.model.TranslationList
 import io.genstrings.model.toSourceKey
 import io.genstrings.translator.OpenAiTranslator
-import io.genstrings.translator.UuidTestTranslator
 import io.genstrings.translator.Translator
+import io.genstrings.translator.UuidTestTranslator
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Instant
 import kotlin.io.path.nameWithoutExtension
 
-// TODO: store prompt hash alongside translation
+// TODO: store prompt hash + model name with translation
 
-// TODO: double check escape characters (?'s need to be escaped?)
+// TODO: add format args context to prompt
+
+// TODO: add `translatable` metadata to output strings.xml
+
+// TODO: logging when running translate
 class TranslateAction(
     private val configFile: Path,
     private val templateFiles: List<Path>,
     private val languages: List<Language>,
+    private val stringNames: Set<String>?,
+    private val retranslate: Boolean,
 ) {
     private val translator = buildTranslator()
 
@@ -33,9 +39,6 @@ class TranslateAction(
             languages.flatMap { language ->
                 buildTranslationDirectives(templateFile, language)
             }
-        }
-        directives.forEach {
-            println(it)
         }
         println("${directives.size} strings to translate")
         readln()
@@ -61,7 +64,7 @@ class TranslateAction(
     private fun buildTranslationDirectives(
         templateFile: Path,
         language: Language,
-    ) : List<TranslationDirective> {
+    ): List<TranslationDirective> {
         val template = Files.newInputStream(templateFile).use {
             StringsTemplate.decodeAndPostProcess(it)
         }
@@ -87,23 +90,28 @@ class TranslateAction(
             }
         }
 
-        val untranslatedStrings = template.translatableStrings.filter {
-            !existingTranslations.containsKey(it.toSourceKey())
-        }
+        val untranslatedStrings = template.translatableStrings.asSequence()
+            .filter { string ->
+                stringNames == null || string.name in stringNames
+            }
+            .filter { string ->
+                if (!retranslate) {
+                    !existingTranslations.containsKey(string.toSourceKey())
+                } else true
+            }
         return untranslatedStrings.map {
             TranslationDirective(
                 string = it,
                 language = language,
-                translationFile = translationFile,
                 onComplete = onComplete,
             )
-        }
+        }.toList()
     }
 
     private fun translate(directives: List<TranslationDirective>) {
         directives.forEach { directive ->
             try {
-                println("Translate: ${directive.string.text}")
+                println("Translate: ${directive.string.name}")
                 val translatedText = translator.translate(
                     string = directive.string,
                     language = directive.language,
@@ -115,8 +123,6 @@ class TranslateAction(
                     timestamp = Instant.now(),
                 )
                 directive.onComplete(translation)
-                println("Done")
-                readln()
             } catch (ex: Exception) {
                 println("Failed to translate: $ex")
             }
@@ -127,6 +133,5 @@ class TranslateAction(
 private data class TranslationDirective(
     val string: StringResource,
     val language: Language,
-    val translationFile: Path,
     val onComplete: (Translation) -> Unit,
 )
