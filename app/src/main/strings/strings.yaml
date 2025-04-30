@@ -15,10 +15,10 @@ strings:
     This text appears on a button with limited space. Try to keep it under 8 characters
     if possible.
 
-- name: "pro_brand_name"
+- name: "brand_name"
   text: My Awesome App Pro
   context: >
-    My Awesome App is a brand name, keep it as is. Translate the rest of the string as usual.
+    Translate only the word "Pro". Leave "My Awesome App" unchanged.
 
 # It's also easy to add positional arguments. These will be post processed -> i.e. %1$s
 - name: "format_args"

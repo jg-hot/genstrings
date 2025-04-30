@@ -11,7 +11,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState, persistentState)
         listOf(
             R.string.hello, R.string.no_worries, R.string.submit_button,
-            R.string.pro_brand_name, R.string.format_args, R.string.contextual_format_args
+            R.string.brand_name, R.string.format_args, R.string.contextual_format_args
         ).forEach {
             Log.i("Genstrings", getString(it))
         }
