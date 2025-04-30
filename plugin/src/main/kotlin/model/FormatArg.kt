@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class FormatArg(
     val position: Int,
 
-    val type: String,
+    val type: String = "s",
 
     @YamlSingleLineStringStyle(SingleLineStringStyle.Plain)
     @YamlMultiLineStringStyle(MultiLineStringStyle.Literal)
