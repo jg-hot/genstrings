@@ -15,4 +15,8 @@ data class FormatArg(
     @YamlSingleLineStringStyle(SingleLineStringStyle.Plain)
     @YamlMultiLineStringStyle(MultiLineStringStyle.Literal)
     val context: String? = null,
-)
+) {
+    fun copyPostProcessed() = copy(
+        context = context?.trimEnd('\n')
+    )
+}

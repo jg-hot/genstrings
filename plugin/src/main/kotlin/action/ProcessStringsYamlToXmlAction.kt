@@ -4,7 +4,6 @@ import com.charleskorn.kaml.decodeFromStream
 import io.genstrings.common.Serializers
 import io.genstrings.common.encodeAndroidFormatArgs
 import io.genstrings.common.encodeRawAndroidString
-import io.genstrings.model.Language
 import io.genstrings.model.StringResource
 import io.genstrings.model.StringsTemplate
 import io.genstrings.model.TranslationList
@@ -12,7 +11,6 @@ import io.genstrings.model.toSourceKey
 import java.io.OutputStreamWriter
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.io.path.createDirectories
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.nameWithoutExtension
 
@@ -24,7 +22,7 @@ class ProcessStringsYamlToXmlAction(
     private val name = "${templatePath.nameWithoutExtension}.xml"
 
     private val template = Files.newInputStream(templatePath).use {
-        Serializers.yaml.decodeFromStream<StringsTemplate>(it)
+        StringsTemplate.decodeAndPostProcess(it)
     }
 
     private val stringsByKey = template.strings.associateBy { it.toSourceKey() }

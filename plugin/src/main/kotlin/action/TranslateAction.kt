@@ -13,13 +13,10 @@ import io.genstrings.translator.UuidTestTranslator
 import io.genstrings.translator.Translator
 import java.nio.file.Files
 import java.nio.file.Path
+import java.time.Instant
 import kotlin.io.path.nameWithoutExtension
 
 // TODO: store prompt hash alongside translation
-
-// TODO: serialize timestamp properly
-
-// TODO: ensure newlines in .yaml multline strings are handled properly
 
 // TODO: double check escape characters (?'s need to be escaped?)
 class TranslateAction(
@@ -48,7 +45,7 @@ class TranslateAction(
         language: Language,
     ) : List<TranslationDirective> {
         val template = Files.newInputStream(templateFile).use {
-            Serializers.yaml.decodeFromStream<StringsTemplate>(it)
+            StringsTemplate.decodeAndPostProcess(it)
         }
 
         val translationFile = templateFile
@@ -95,7 +92,7 @@ class TranslateAction(
                     name = directive.string.name,
                     source = directive.string.toSourceKey(),
                     translation = translatedText,
-                    timestamp = System.currentTimeMillis().toString()
+                    timestamp = Instant.now(),
                 )
                 directive.onComplete(translation)
                 println("Done")

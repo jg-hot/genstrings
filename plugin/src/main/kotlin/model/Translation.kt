@@ -1,21 +1,18 @@
 package io.genstrings.model
 
-import com.charleskorn.kaml.MultiLineStringStyle
-import com.charleskorn.kaml.SingleLineStringStyle
-import com.charleskorn.kaml.YamlMultiLineStringStyle
-import com.charleskorn.kaml.YamlSingleLineStringStyle
+import io.genstrings.common.InstantIso8601Serializer
 import kotlinx.serialization.Serializable
+import java.time.Instant
 
 @Serializable
 data class Translation(
     val name: String,
 
+    // TODO: use custom KSerializer to persist date / time
+    @Serializable(with = InstantIso8601Serializer::class)
+    val timestamp: Instant,
+
     val source: SourceKey,
 
-    @YamlSingleLineStringStyle(SingleLineStringStyle.Plain)
-    @YamlMultiLineStringStyle(MultiLineStringStyle.Literal)
     val translation: String,
-
-    // TODO: use custom KSerializer to persist date / time
-    val timestamp: String,
 )

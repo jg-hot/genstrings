@@ -5,7 +5,6 @@ import com.charleskorn.kaml.encodeToStream
 import io.genstrings.common.Serializers
 import io.genstrings.model.StringsTemplate
 import io.genstrings.model.TranslationList
-import io.genstrings.model.toSourceKey
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.nameWithoutExtension
@@ -17,7 +16,7 @@ class UpdateTranslationsYamlAction(
     private val outputDir: Path,
 ) {
     private val template = Files.newInputStream(templatePath).use {
-        Serializers.yaml.decodeFromStream<StringsTemplate>(it)
+        StringsTemplate.decodeAndPostProcess(it)
     }
 
     fun execute() {

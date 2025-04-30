@@ -21,4 +21,10 @@ data class StringResource(
     val context: String? = null,
 
     val formatArgs: List<FormatArg> = emptyList()
-)
+) {
+    fun copyPostProcessed() = this.copy(
+        text = text.trimEnd('\n'),
+        context = context?.trimEnd('\n'),
+        formatArgs = formatArgs.map { it.copyPostProcessed() }
+    )
+}
