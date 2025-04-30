@@ -12,7 +12,7 @@ import io.genstrings.model.TranslationList
 import io.genstrings.model.toSourceKey
 import io.genstrings.translator.OpenAiTranslator
 import io.genstrings.translator.Translator
-import io.genstrings.translator.UuidTestTranslator
+import io.genstrings.util.indent
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Instant
@@ -20,11 +20,9 @@ import kotlin.io.path.nameWithoutExtension
 
 // TODO: store prompt hash + model name with translation
 
-// TODO: add format args context to prompt
-
 // TODO: add `translatable` metadata to output strings.xml
 
-// TODO: logging when running translate
+// TODO: add format args validation (each format arg should appear the same number of times in the response) or fail translation
 class TranslateAction(
     private val configFile: Path,
     private val templateFiles: List<Path>,
@@ -111,20 +109,33 @@ class TranslateAction(
     private fun translate(directives: List<TranslationDirective>) {
         directives.forEach { directive ->
             try {
-                println("Translate: ${directive.string.name}")
-                val translatedText = translator.translate(
+                println("Translate string: ${directive.string.name} -> ${directive.language.name} (${directive.language.locale})")
+                println()
+
+                val output = translator.translate(
                     string = directive.string,
                     language = directive.language,
+                    onPreTranslate = { inputLog ->
+                        val message = (inputLog ?: directive.string.text).indent()
+                        println("Input:")
+                        println(message)
+                        println()
+                    },
                 )
+                println("Output:")
+                println(output.translatedText.indent())
+                println()
+
                 val translation = Translation(
                     name = directive.string.name,
                     source = directive.string.toSourceKey(),
-                    translation = translatedText,
+                    translation = output.translatedText,
                     timestamp = Instant.now(),
                 )
                 directive.onComplete(translation)
             } catch (ex: Exception) {
-                println("Failed to translate: $ex")
+                println("Output:")
+                println("Failed to translate: ${ex.message}".indent())
             }
         }
     }
