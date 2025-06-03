@@ -7,6 +7,7 @@ import io.genstrings.model.Translation
 interface Translator {
     fun translate(
         string: StringResource,
+        appContext: String?,
         language: Language,
 
         // parameter is an optional message to log

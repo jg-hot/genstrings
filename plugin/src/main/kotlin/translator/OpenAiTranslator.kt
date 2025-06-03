@@ -26,9 +26,9 @@ class OpenAiTranslator(
     )
 
     override fun translate(
-        string: StringResource, language: Language, onPreTranslate: (String?) -> Unit,
+        string: StringResource, appContext: String?, language: Language, onPreTranslate: (String?) -> Unit,
     ): TranslationOutput {
-        val prompt = promptBuilder.buildPrompt(string, language)
+        val prompt = promptBuilder.buildPrompt(string, appContext, language)
 
         val request = ChatCompletionRequest(
             model = ModelId(config.model),
@@ -41,7 +41,8 @@ class OpenAiTranslator(
                     role = ChatRole.User,
                     content = prompt.message,
                 ),
-            )
+            ),
+            temperature = 0.2,
         )
         onPreTranslate.invoke(prompt.message)
 

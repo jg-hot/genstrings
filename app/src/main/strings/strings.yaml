@@ -39,6 +39,21 @@ strings:
     - position: 2
       context: Refers to a noun
 
+# App context is global and applies to every string (it's defined at the bottom of this file)
+# the AI is instructed to consider both the app context + string context when translating
+#
+# in this example, the app context states that "charge" refers to an electric scooter's battery level
+- name: "electric_charge"
+  text: Charge
+  context: >
+    A noun
+
+# however, string context overrides app context if the two conflict
+- name: "billing_charge"
+  text: Charge
+  context: >
+    A noun that refers to a charge applied to the user's billing account.
+
 # Create non-translatable strings like this:
 - name: "api_key"
   text: "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
@@ -57,3 +72,11 @@ strings:
     Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
 
 # Trailing newlines will be stripped. If you want a trailing new line, just add \n at the end.
+
+# Use app context to define terminology or give global context. it's added to every translation prompt.
+app_context: |
+  This is a mobile app for renting electric scooters.
+  
+  Terminology:
+  * Charge: The battery level of an electric scooter.
+  

@@ -100,6 +100,7 @@ class TranslateAction(
         return untranslatedStrings.map {
             TranslationDirective(
                 string = it,
+                appContext = template.appContext,
                 language = language,
                 onComplete = onComplete,
             )
@@ -114,6 +115,7 @@ class TranslateAction(
 
                 val output = translator.translate(
                     string = directive.string,
+                    appContext= directive.appContext,
                     language = directive.language,
                     onPreTranslate = { inputLog ->
                         val message = (inputLog ?: directive.string.text).indent()
@@ -143,6 +145,7 @@ class TranslateAction(
 
 private data class TranslationDirective(
     val string: StringResource,
+    val appContext: String?,
     val language: Language,
     val onComplete: (Translation) -> Unit,
 )

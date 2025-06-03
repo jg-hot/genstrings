@@ -1,5 +1,9 @@
 package io.genstrings.model
 
+import com.charleskorn.kaml.MultiLineStringStyle
+import com.charleskorn.kaml.SingleLineStringStyle
+import com.charleskorn.kaml.YamlMultiLineStringStyle
+import com.charleskorn.kaml.YamlSingleLineStringStyle
 import com.charleskorn.kaml.decodeFromStream
 import io.genstrings.common.Serializers
 import kotlinx.serialization.Serializable
@@ -7,6 +11,10 @@ import java.io.InputStream
 
 @Serializable
 data class StringsTemplate(
+    @YamlSingleLineStringStyle(SingleLineStringStyle.Plain)
+    @YamlMultiLineStringStyle(MultiLineStringStyle.Literal)
+    val appContext: String? = null,
+
     val strings: List<StringResource>,
 ) {
     val translatableStrings: List<StringResource>
@@ -15,6 +23,7 @@ data class StringsTemplate(
         }
 
     fun copyPostProcessed() = copy(
+        appContext = appContext?.trimEnd('\n'),
         strings = strings.map { it.copyPostProcessed() }
     )
 

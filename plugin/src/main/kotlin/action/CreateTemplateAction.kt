@@ -48,7 +48,7 @@ class CreateTemplateAction(
                 formatArgs = formatArgs,
             )
         }.let {
-            StringsTemplate(it)
+            StringsTemplate(strings = it)
         }
         val templatePath = resolveTemplatePath(sourcePath)
         println("Writing template file to: $templatePath")
