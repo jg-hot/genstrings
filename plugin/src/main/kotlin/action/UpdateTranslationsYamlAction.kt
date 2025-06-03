@@ -9,7 +9,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.nameWithoutExtension
 
-// TODO: make language configurable in app build.gradle.kts
 class UpdateTranslationsYamlAction(
     private val templatePath: Path,
     private val locales: Set<String>,

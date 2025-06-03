@@ -45,6 +45,7 @@ publishing {
     }
 }
 
+// currently you will need to run :plugin:test --rerun and check the HTML report manually
 tasks.test {
     useJUnitPlatform()
 }

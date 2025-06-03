@@ -10,5 +10,6 @@ data class GenstringsConfig(
 @Serializable
 data class GenstringsOpenAiConfig(
     val apiKey: String,
-    val model: String = "gpt-4.1"
+    val model: String = "gpt-4.1",
+    val temperature: Double = 0.2,
 )

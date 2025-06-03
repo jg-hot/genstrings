@@ -12,12 +12,9 @@ import io.genstrings.model.Language
 import io.genstrings.model.StringResource
 import kotlinx.coroutines.runBlocking
 
-// TODO: set temperature metadata
-
-// TODO: add instructions_hash to metadata
 class OpenAiTranslator(
     private val config: GenstringsOpenAiConfig,
-    private val promptBuilder: PromptBuilder = DefaultPromptBuilder(),
+    private val promptBuilder: PromptBuilder,
 ) : Translator {
 
     private val client = OpenAI(
@@ -42,7 +39,7 @@ class OpenAiTranslator(
                     content = prompt.message,
                 ),
             ),
-            temperature = 0.2,
+            temperature = config.temperature,
         )
         onPreTranslate.invoke(prompt.message)
 
@@ -54,6 +51,7 @@ class OpenAiTranslator(
         val metadata = mapOf(
             "provider" to "openai",
             "model" to config.model,
+            "temperature" to config.temperature.toString(),
         )
         return TranslationOutput(text, metadata)
     }

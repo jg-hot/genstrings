@@ -1,7 +1,7 @@
 package io.genstrings.common
 
 import io.genstrings.model.FormatArg
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 private const val encodedRawText = """\?\@\'\"\n\t"""
@@ -23,6 +23,7 @@ private val decodedFormatArgs = "{1} times {2} is (not really) {99}" to listOf(
     FormatArg(99, "f"),
 )
 
+// currently you will need to run :plugin:test --rerun and check the HTML report manually
 class ProcessingTest {
 
     @Test

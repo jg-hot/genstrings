@@ -4,10 +4,13 @@ import io.genstrings.model.Language
 import io.genstrings.model.StringResource
 
 interface PromptBuilder {
+    val promptBuilderId: String
     fun buildPrompt(string: StringResource, appContext: String?, language: Language): Prompt
 }
 
 class DefaultPromptBuilder : PromptBuilder {
+    override val promptBuilderId = "default_v1"
+
     override fun buildPrompt(string: StringResource, appContext: String?, language: Language): Prompt {
         return Prompt(
             instructions = buildInstructions(language, appContext),

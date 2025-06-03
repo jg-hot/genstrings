@@ -2,6 +2,7 @@ package io.genstrings.action
 
 import com.charleskorn.kaml.decodeFromStream
 import com.charleskorn.kaml.encodeToStream
+import io.genstrings.common.Hasher
 import io.genstrings.common.Serializers
 import io.genstrings.model.GenstringsConfig
 import io.genstrings.model.Language
@@ -10,6 +11,7 @@ import io.genstrings.model.StringsTemplate
 import io.genstrings.model.Translation
 import io.genstrings.model.TranslationList
 import io.genstrings.model.toSourceKey
+import io.genstrings.translator.DefaultPromptBuilder
 import io.genstrings.translator.OpenAiTranslator
 import io.genstrings.translator.Translator
 import io.genstrings.util.indent
@@ -17,8 +19,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Instant
 import kotlin.io.path.nameWithoutExtension
-
-// TODO: store prompt hash + model name with translation
 
 // TODO: add `translatable` metadata to output strings.xml
 
@@ -30,6 +30,7 @@ class TranslateAction(
     private val stringNames: Set<String>?,
     private val retranslate: Boolean,
 ) {
+    private val promptBuilder = DefaultPromptBuilder()
     private val translator = buildTranslator()
 
     fun execute() {
@@ -56,7 +57,7 @@ class TranslateAction(
         require(config.openAi != null) {
             "config.yaml file doesn't include an open_ai configurations"
         }
-        return OpenAiTranslator(config.openAi)
+        return OpenAiTranslator(config.openAi, promptBuilder)
     }
 
     private fun buildTranslationDirectives(
@@ -130,9 +131,14 @@ class TranslateAction(
 
                 val translation = Translation(
                     name = directive.string.name,
+                    timestamp = Instant.now(),
+                    promptBuilderId = promptBuilder.promptBuilderId,
+                    appContextHash = directive.appContext?.let {
+                        Hasher.sha256Sum(it)
+                    },
+                    metadata = output.metadata,
                     source = directive.string.toSourceKey(),
                     translation = output.translatedText,
-                    timestamp = Instant.now(),
                 )
                 directive.onComplete(translation)
             } catch (ex: Exception) {

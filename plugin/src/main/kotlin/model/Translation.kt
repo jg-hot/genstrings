@@ -8,9 +8,14 @@ import java.time.Instant
 data class Translation(
     val name: String,
 
-    // TODO: use custom KSerializer to persist date / time
     @Serializable(with = InstantIso8601Serializer::class)
     val timestamp: Instant,
+
+    val metadata: Map<String, String> = emptyMap(),
+
+    val promptBuilderId: String,
+
+    val appContextHash: String?,
 
     val source: SourceKey,
 
