@@ -16,12 +16,13 @@ import io.genstrings.translator.DefaultPromptBuilder
 import io.genstrings.translator.OpenAiTranslator
 import io.genstrings.translator.Translator
 import io.genstrings.util.indent
+import io.genstrings.validator.FormatArgsValidator
+import io.genstrings.validator.ValidationResult
 import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Instant
 import kotlin.io.path.nameWithoutExtension
 
-// TODO: add format args validation (each format arg should appear the same number of times in the response) or fail translation
 class TranslateAction(
     private val configFile: Path,
     private val templateFiles: List<Path>,
@@ -31,6 +32,9 @@ class TranslateAction(
 ) {
     private val promptBuilder = DefaultPromptBuilder()
     private val translator = buildTranslator()
+    private val validators = listOf(
+        FormatArgsValidator()
+    )
 
     fun execute() {
         val directives = templateFiles.flatMap { templateFile ->
@@ -124,7 +128,7 @@ class TranslateAction(
 
                 val output = translator.translate(
                     string = directive.string,
-                    appContext= directive.appContext,
+                    appContext = directive.appContext,
                     language = directive.language,
                     onPreTranslate = { inputLog ->
                         val message = (inputLog ?: directive.string.text).indent()
@@ -137,6 +141,17 @@ class TranslateAction(
                 println(output.translatedText.indent())
                 println()
 
+                val invalidReasons = validators
+                    .map {
+                        it.validate(directive.string, output.translatedText)
+                    }
+                    .filterIsInstance<ValidationResult.Invalid>()
+                    .map {
+                        it.reason
+                    }
+                if (invalidReasons.isNotEmpty()) {
+                    throw Exception("Validation failed:\n${invalidReasons.joinToString("\n")}")
+                }
                 val translation = Translation(
                     name = directive.string.name,
                     timestamp = Instant.now(),
