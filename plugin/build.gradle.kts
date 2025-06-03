@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.genstrings"
-version = "1.2-SNAPSHOT"
+version = "0.1.1"
 
 gradlePlugin {
     plugins {
