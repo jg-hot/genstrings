@@ -104,7 +104,11 @@ class ProcessStringsYamlToXmlAction(
     }
 
     private fun buildAndroidStringXmlEntry(string: StringResource, value: String) = buildString {
-        append("<string name=\"${string.name}\">")
+        val translatableAttr = if (string.translatable == false) {
+            " translatable=\"false\""
+        } else ""
+
+        append("<string name=\"${string.name}\"$translatableAttr>")
         append(
             value
                 .encodeAndroidFormatArgs(string.formatArgs)

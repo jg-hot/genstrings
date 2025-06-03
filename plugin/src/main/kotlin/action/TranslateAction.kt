@@ -20,8 +20,6 @@ import java.nio.file.Path
 import java.time.Instant
 import kotlin.io.path.nameWithoutExtension
 
-// TODO: add `translatable` metadata to output strings.xml
-
 // TODO: add format args validation (each format arg should appear the same number of times in the response) or fail translation
 class TranslateAction(
     private val configFile: Path,
