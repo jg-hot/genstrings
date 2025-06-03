@@ -75,7 +75,7 @@ class DefaultPromptBuilder : PromptBuilder {
         appendLine("Input string:")
         appendLine("```")
         appendLine(string.text)
-        appendLine("```")
+        append("```")
     }
 
     private fun buildContext(string: StringResource) = buildList {

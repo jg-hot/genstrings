@@ -23,7 +23,10 @@ class OpenAiTranslator(
     )
 
     override fun translate(
-        string: StringResource, appContext: String?, language: Language, onPreTranslate: (String?) -> Unit,
+        string: StringResource,
+        appContext: String?,
+        language: Language,
+        onPreTranslate: (String?) -> Unit,
     ): TranslationOutput {
         val prompt = promptBuilder.buildPrompt(string, appContext, language)
 
@@ -54,5 +57,35 @@ class OpenAiTranslator(
             "temperature" to config.temperature.toString(),
         )
         return TranslationOutput(text, metadata)
+    }
+
+    // https://openai.com/api/pricing/
+    //
+    // TODO: let user provide up-to-date pricing info in config.yaml
+    override fun estimateTranslationCost(
+        string: StringResource, appContext: String?, language: Language
+    ): Double {
+        val (inputCostPerToken, outputCostPerToken) = when (config.model) {
+            "gpt-4.1" ->
+                (2.00 / 1E6) to (8.00 / 1E6)
+
+            else ->
+                throw Exception("Pricing unavailable for model: ${config.model}")
+        }
+
+        val prompt = promptBuilder.buildPrompt(string, appContext, language)
+        val inputTokenCount = estimateTokenCount(prompt.instructions + prompt.message)
+
+        // assuming the output will be similar in length to the input in English
+        val outputTokenCount = estimateTokenCount(string.text)
+
+        return (inputCostPerToken * inputTokenCount) + (outputCostPerToken * outputTokenCount)
+    }
+
+    // https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them
+    //
+    // this can be improved in the future by using tiktoken
+    private fun estimateTokenCount(text: String): Double {
+        return text.length / 4.0
     }
 }

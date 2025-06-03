@@ -13,6 +13,12 @@ interface Translator {
         // parameter is an optional message to log
         onPreTranslate: (String?) -> Unit = {},
     ) : TranslationOutput
+
+    fun estimateTranslationCost(
+        string: StringResource,
+        appContext: String?,
+        language: Language,
+    ): Double
 }
 
 data class TranslationOutput(

@@ -16,4 +16,10 @@ class NoOpTranslator : Translator {
         onPreTranslate.invoke(null)
         return TranslationOutput(string.text, metadata)
     }
+
+    override fun estimateTranslationCost(
+        string: StringResource, appContext: String?, language: Language
+    ): Double {
+        return 0.0
+    }
 }

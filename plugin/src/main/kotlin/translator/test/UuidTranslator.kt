@@ -16,4 +16,10 @@ class UuidTranslator : Translator {
         onPreTranslate.invoke(null)
         return TranslationOutput(UUID.randomUUID().toString(), metadata)
     }
+
+    override fun estimateTranslationCost(
+        string: StringResource, appContext: String?, language: Language
+    ): Double {
+        return 0.0
+    }
 }

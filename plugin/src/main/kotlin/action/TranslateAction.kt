@@ -4,6 +4,7 @@ import com.charleskorn.kaml.decodeFromStream
 import com.charleskorn.kaml.encodeToStream
 import io.genstrings.common.Hasher
 import io.genstrings.common.Serializers
+import io.genstrings.model.FormatArg
 import io.genstrings.model.GenstringsConfig
 import io.genstrings.model.Language
 import io.genstrings.model.StringResource
@@ -37,9 +38,18 @@ class TranslateAction(
                 buildTranslationDirectives(templateFile, language)
             }
         }
-        println("${directives.size} strings to translate")
-        readln()
-
+        if (directives.isEmpty()) {
+            println("All translations are up-to-date (use --update to force re-translation)")
+            return
+        }
+        printTranslationSummary(directives)
+        println()
+        printExamplePrompt(directives.first())
+        println()
+        if (!readConfirmation(directives)) {
+            println("Translation Cancelled")
+            return
+        }
         translate(directives)
     }
 
@@ -144,6 +154,84 @@ class TranslateAction(
                 println("Failed to translate: ${ex.message}".indent())
             }
         }
+    }
+
+    private fun printTranslationSummary(directives: List<TranslationDirective>) {
+        printHeader("Translation Summary")
+
+        println("Total # of Strings to Translate: ${directives.size}")
+
+        val countByLanguage = directives
+            .groupingBy { it.language }
+            .eachCount()
+        countByLanguage.forEach { (language, count) ->
+            println("${language.name} (${language.locale}): $count".indent())
+        }
+        println()
+        try {
+            val estimatedCost = directives.sumOf {
+                translator.estimateTranslationCost(it.string, it.appContext, it.language)
+            }
+            println("Estimated Cost: ${"%.4f".format(estimatedCost)} USD")
+        } catch (ex: Exception) {
+            println(ex.message)
+        }
+    }
+
+    private fun printExamplePrompt(directive: TranslationDirective) {
+        val string = StringResource(
+            name = "example",
+            text = "Example {1}",
+            context = "This is an example string",
+            formatArgs = listOf(
+                FormatArg(1, "s", "Refers to a noun")
+            )
+        )
+
+        val prompt = promptBuilder.buildPrompt(
+            string, directive.appContext, directive.language
+        )
+        printHeader("Example Prompt")
+        println(prompt.instructions)
+        println()
+        println(prompt.message)
+    }
+
+    // returns true if proceed with translation is selected
+    private fun readConfirmation(directives: List<TranslationDirective>): Boolean {
+        printHeader("Ready to Translate")
+        println()
+        while (true) {
+            println("Proceed with Translation? [Y]es / [No] / [P]rint All Strings: ")
+            val response = readln().trim().lowercase().getOrNull(0)
+            when (response) {
+                'y' -> return true
+                'p' -> printAllStrings(directives)
+                else -> return false
+            }
+        }
+    }
+
+    private fun printAllStrings(directives: List<TranslationDirective>) {
+        val stringsByLanguage = directives.groupBy(
+            keySelector = { it.language },
+            valueTransform = { it.string },
+        )
+        stringsByLanguage.forEach { (language, strings) ->
+            println("Language: ${language.name} (${language.locale}):")
+            strings.forEach { string ->
+                println("${string.name} -> ${string.text}".indent())
+            }
+            println()
+        }
+    }
+
+    private fun printHeader(label: String) {
+        val n = 80
+        val block = "=".repeat(n)
+        println(block)
+        println(label.padStart((80 + label.length) / 2))
+        println(block)
     }
 }
 
