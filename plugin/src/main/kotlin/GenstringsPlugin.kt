@@ -22,12 +22,6 @@ class GenstringsPlugin : Plugin<Project> {
                     .file("config.yaml")
             )
         }
-
-        val locales = target.providers.provider {
-            extension.languages.map {
-                it.name
-            }.toSet()
-        }
         val languages = target.providers.provider {
             extension.languages.map {
                 it.toLanguage()
@@ -58,7 +52,7 @@ class GenstringsPlugin : Plugin<Project> {
             "updateTranslationsYaml", UpdateTranslationsYamlTask::class.java
         ) { task ->
             task.sourceYamlFiles.from(sourceYamlFiles)
-            task.locales.set(locales)
+            task.languages.set(languages)
             task.translationsDir.set(translationsDir)
         }
 
@@ -73,7 +67,7 @@ class GenstringsPlugin : Plugin<Project> {
             ) { task ->
                 task.sourceYamlFiles.from(sourceYamlFiles)
                 task.translationYamlFiles.from(translationYamlFiles)
-                task.locales.set(locales)
+                task.languages.set(languages)
                 task.outputDir.set(outputDir)
                 task.dependsOn(updateTask)
             }

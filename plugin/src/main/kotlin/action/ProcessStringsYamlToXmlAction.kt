@@ -4,19 +4,20 @@ import com.charleskorn.kaml.decodeFromStream
 import io.genstrings.common.Serializers
 import io.genstrings.common.encodeAndroidFormatArgs
 import io.genstrings.common.encodeRawAndroidString
-import io.genstrings.model.StringResource
+import io.genstrings.model.FormatArg
+import io.genstrings.model.Language
 import io.genstrings.model.StringsTemplate
 import io.genstrings.model.TranslationList
-import io.genstrings.model.toSourceKey
-import java.io.OutputStreamWriter
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.nameWithoutExtension
 
+private const val LANGUAGE_TAG = "genstrings_language"
+
 class ProcessStringsYamlToXmlAction(
     private val templatePath: Path,
-    private val locales: Set<String>,
+    private val languages: List<Language>,
     private val outputDir: Path,
 ) {
     private val name = "${templatePath.nameWithoutExtension}.xml"
@@ -29,7 +30,7 @@ class ProcessStringsYamlToXmlAction(
 
     fun execute() {
         writeTemplateXml()
-        locales.forEach {
+        languages.forEach {
             writeTranslationXml(it)
         }
     }
@@ -42,27 +43,28 @@ class ProcessStringsYamlToXmlAction(
                 createParentDirectories()
             }
 
-        OutputStreamWriter(Files.newOutputStream(outputPath)).use {
-            writeAndroidStringsXml(
-                outputPath = outputPath,
-                items = template.strings,
-                provideStringResource = { it },
-                provideValue = { it.text },
-            )
+        val builder = AndroidStringsXmlBuilder()
+        builder.addEntry(LANGUAGE_TAG, "default")
+
+        template.strings.forEach {
+            builder.addEntry(it.name, it.text, it.translatable, it.formatArgs)
+        }
+        Files.newBufferedWriter(outputPath).use {
+            it.write(builder.build())
         }
     }
 
     private fun writeTranslationXml(
-        locale: String,
+        language: Language,
     ) {
         val inputPath = templatePath.parent
             .resolve("translations")
             .resolve(
-                "${templatePath.nameWithoutExtension}-${locale}.yaml"
+                "${templatePath.nameWithoutExtension}-${language.locale}.yaml"
             )
 
         val outputPath = outputDir
-            .resolve("values-${locale}")
+            .resolve("values-${language.locale}")
             .resolve(name)
             .apply {
                 createParentDirectories()
@@ -71,49 +73,48 @@ class ProcessStringsYamlToXmlAction(
         val translations = Files.newInputStream(inputPath).use {
             Serializers.yaml.decodeFromStream<TranslationList>(it).translations
         }
-
-        OutputStreamWriter(Files.newOutputStream(outputPath)).use {
-            writeAndroidStringsXml(
-                outputPath = outputPath,
-                items = translations,
-                provideStringResource = { stringsByName[it.name]!! },
-                provideValue = { it.translation }
-            )
+        val builder = AndroidStringsXmlBuilder()
+        if (translations.isNotEmpty()) {
+            builder.addEntry(LANGUAGE_TAG, language.name)
+        }
+        translations.forEach {
+            val string = stringsByName[it.name]!!
+            builder.addEntry(string.name, it.translation, null, string.formatArgs)
+        }
+        Files.newBufferedWriter(outputPath).use {
+            it.write(builder.build())
         }
     }
 
-    private fun <T> writeAndroidStringsXml(
-        outputPath: Path,
-        items: List<T>,
-        provideStringResource: (T) -> StringResource,
-        provideValue: (T) -> String,
-    ) {
-        OutputStreamWriter(Files.newOutputStream(outputPath)).use {
-            it.append("<resources>")
-            it.appendLine()
-            for (item in items) {
-                val string = provideStringResource(item)
-                val value = provideValue(item)
-                it.append("    ")
-                it.append(buildAndroidStringXmlEntry(string, value))
-                it.appendLine()
+    private class AndroidStringsXmlBuilder {
+        private val entries = mutableListOf<String>()
+
+        fun addEntry(
+            name: String, value: String, translatable: Boolean? = null,
+            formatArgs: List<FormatArg> = listOf()
+        ) {
+            val translatableAttr = if (translatable == false) {
+                " translatable=\"false\""
+            } else ""
+
+            entries += buildString {
+                append("<string name=\"${name}\"$translatableAttr>")
+                append(
+                    value
+                        .encodeAndroidFormatArgs(formatArgs)
+                        .encodeRawAndroidString()
+                )
+                append("</string>")
             }
-            it.append("</resources>")
-            it.appendLine()
         }
-    }
 
-    private fun buildAndroidStringXmlEntry(string: StringResource, value: String) = buildString {
-        val translatableAttr = if (string.translatable == false) {
-            " translatable=\"false\""
-        } else ""
-
-        append("<string name=\"${string.name}\"$translatableAttr>")
-        append(
-            value
-                .encodeAndroidFormatArgs(string.formatArgs)
-                .encodeRawAndroidString()
-        )
-        append("</string>")
+        fun build() = buildString {
+            appendLine("<resources>")
+            entries.forEach { entry ->
+                append("    ")
+                appendLine(entry)
+            }
+            appendLine("</resources>")
+        }
     }
 }

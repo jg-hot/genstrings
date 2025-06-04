@@ -3,6 +3,7 @@ package io.genstrings.action
 import com.charleskorn.kaml.decodeFromStream
 import com.charleskorn.kaml.encodeToStream
 import io.genstrings.common.Serializers
+import io.genstrings.model.Language
 import io.genstrings.model.StringsTemplate
 import io.genstrings.model.TranslationList
 import java.nio.file.Files
@@ -11,7 +12,7 @@ import kotlin.io.path.nameWithoutExtension
 
 class UpdateTranslationsYamlAction(
     private val templatePath: Path,
-    private val locales: Set<String>,
+    private val languages: List<Language>,
     private val outputDir: Path,
 ) {
     private val template = Files.newInputStream(templatePath).use {
@@ -19,8 +20,8 @@ class UpdateTranslationsYamlAction(
     }
 
     fun execute() {
-        locales.forEach {
-            updateTranslationsYaml(it)
+        languages.forEach {
+            updateTranslationsYaml(it.locale)
         }
     }
 

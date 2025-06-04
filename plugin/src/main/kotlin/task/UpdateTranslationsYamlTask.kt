@@ -1,10 +1,11 @@
 package io.genstrings.task
 
 import io.genstrings.action.UpdateTranslationsYamlAction
+import io.genstrings.model.Language
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.provider.SetProperty
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputDirectory
@@ -16,7 +17,7 @@ abstract class UpdateTranslationsYamlTask : DefaultTask() {
     abstract val sourceYamlFiles: ConfigurableFileCollection
 
     @get:Input
-    abstract val locales: SetProperty<String>
+    abstract val languages: ListProperty<Language>
 
     // TODO: is this the right specifier here?
     @get:OutputDirectory
@@ -32,7 +33,7 @@ abstract class UpdateTranslationsYamlTask : DefaultTask() {
         sourceYamlFiles.forEach { sourceYamlFile ->
             UpdateTranslationsYamlAction(
                 templatePath = sourceYamlFile.toPath(),
-                locales = locales.get(),
+                languages = languages.get(),
                 outputDir = translationsDir.get().asFile.toPath(),
             ).execute()
         }
