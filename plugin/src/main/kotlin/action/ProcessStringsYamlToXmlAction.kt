@@ -25,7 +25,7 @@ class ProcessStringsYamlToXmlAction(
         StringsTemplate.decodeAndPostProcess(it)
     }
 
-    private val stringsByKey = template.strings.associateBy { it.toSourceKey() }
+    private val stringsByName = template.strings.associateBy { it.name }
 
     fun execute() {
         writeTemplateXml()
@@ -76,7 +76,7 @@ class ProcessStringsYamlToXmlAction(
             writeAndroidStringsXml(
                 outputPath = outputPath,
                 items = translations,
-                provideStringResource = { stringsByKey[it.source]!! },
+                provideStringResource = { stringsByName[it.name]!! },
                 provideValue = { it.translation }
             )
         }
