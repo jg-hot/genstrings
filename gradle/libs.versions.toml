@@ -4,6 +4,13 @@ gradle = "8.12"
 agp = "8.9.2"
 kotlin = "2.0.21"
 
+junitext = "1.2.1"
+androidtest = "1.6.2"
+
+[libraries]
+test-junit-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitext" }
+test-runner = { group = "androidx.test", name = "runner", version.ref = "androidtest" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

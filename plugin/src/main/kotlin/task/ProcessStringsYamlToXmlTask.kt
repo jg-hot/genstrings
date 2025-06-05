@@ -30,9 +30,10 @@ abstract class ProcessStringsYamlToXmlTask : DefaultTask() {
         description = "Generate source and translated strings.xml files from strings.yaml"
     }
 
-    // TODO: run action once per source yaml file, including list of languages property
     @TaskAction
     fun run() {
+        outputDir.get().asFile.deleteRecursively()
+
         sourceYamlFiles.forEach { sourceYamlFile ->
             ProcessStringsYamlToXmlAction(
                 templatePath = sourceYamlFile.toPath(),

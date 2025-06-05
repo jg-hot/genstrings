@@ -25,8 +25,11 @@ genstrings {
         create("es") {
             description = "Spanish"
         }
-        create("zh") {
-            description = "Chinese (Simplified)"
+        create("b+zh+Hans") {
+            description = "Chinese (Simplified Han)"
+        }
+        create("b+zh+Hant") {
+            description = "Chinese (Traditional Han)"
         }
     }
 }

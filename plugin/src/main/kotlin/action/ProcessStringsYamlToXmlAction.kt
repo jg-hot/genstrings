@@ -74,9 +74,8 @@ class ProcessStringsYamlToXmlAction(
             Serializers.yaml.decodeFromStream<TranslationList>(it).translations
         }
         val builder = AndroidStringsXmlBuilder()
-        if (translations.isNotEmpty()) {
-            builder.addEntry(LANGUAGE_TAG, language.name)
-        }
+        builder.addEntry(LANGUAGE_TAG, language.name)
+
         translations.forEach {
             val string = stringsByName[it.name]!!
             builder.addEntry(string.name, it.translation, null, string.formatArgs)
