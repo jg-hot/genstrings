@@ -13,7 +13,19 @@ import java.nio.file.Path
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.nameWithoutExtension
 
-private const val LANGUAGE_TAG = "genstrings_language"
+// these tags appear as specified in build.gradle.kts:
+
+// name of the language i.e. "Chinese (Traditional Hant)"
+private const val KEY_LANGUAGE = "genstrings_language"
+
+// 2 or 3 digit language code, 1st portion of parsed qualifier i.e. "zh"
+private const val KEY_LANGUAGE_CODE= "genstrings_language_code"
+
+// full Android strings.xml locale qualifier, parsed i.e. "zh-Hant"
+private const val KEY_LOCALE_TAG = "genstrings_locale_tag"
+
+// 4-letter script specified in BCP 47 tag, if any (otherwise an empty string)
+private const val KEY_SCRIPT = "genstrings_script"
 
 class ProcessStringsYamlToXmlAction(
     private val templatePath: Path,
@@ -43,8 +55,12 @@ class ProcessStringsYamlToXmlAction(
                 createParentDirectories()
             }
 
+        // this would need to be changed if writing strings.yaml in a language other than English
         val builder = AndroidStringsXmlBuilder()
-        builder.addEntry(LANGUAGE_TAG, "default")
+        builder.addEntry(KEY_LANGUAGE, "English")
+        builder.addEntry(KEY_LANGUAGE_CODE, "en")
+        builder.addEntry(KEY_LOCALE_TAG, "en")
+        builder.addEntry(KEY_SCRIPT, "")
 
         template.strings.forEach {
             builder.addEntry(it.name, it.text, it.translatable, it.formatArgs)
@@ -73,8 +89,13 @@ class ProcessStringsYamlToXmlAction(
         val translations = Files.newInputStream(inputPath).use {
             Serializers.yaml.decodeFromStream<TranslationList>(it).translations
         }
+        val parsedLocale = language.parsedLocale
+
         val builder = AndroidStringsXmlBuilder()
-        builder.addEntry(LANGUAGE_TAG, language.name)
+        builder.addEntry(KEY_LANGUAGE, language.name)
+        builder.addEntry(KEY_LANGUAGE_CODE, parsedLocale.languageCode)
+        builder.addEntry(KEY_LOCALE_TAG, parsedLocale.toString())
+        builder.addEntry(KEY_SCRIPT, parsedLocale.script ?: "")
 
         translations.forEach {
             val string = stringsByName[it.name]!!

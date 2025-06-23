@@ -1,6 +1,7 @@
 package io.genstrings.sample
 
 import android.app.Activity
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.LocaleList
 import android.widget.TextView
@@ -11,7 +12,11 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val deviceLocale = LocaleList.getDefault().get(0)
+        // https://stackoverflow.com/questions/4212320/get-the-current-language-in-device
+        // https://medium.com/@hectorricardomendez/how-to-get-the-current-locale-in-android-fc12d8be6242
+        val deviceLocale = Resources.getSystem().configuration.locales.get(0)
+
+        // this isn't very useful; use genstrings_language to see what was actually resolved
         val appLocale = resources.configuration.locales.get(0)
 
         val strings = mapOf(
