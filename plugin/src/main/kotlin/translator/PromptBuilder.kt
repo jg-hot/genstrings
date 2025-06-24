@@ -24,7 +24,7 @@ class DefaultPromptBuilder : PromptBuilder {
             You are an AI assistant that translates string resources for a mobile app.
             
             Target language: ${language.name}
-            Locale: ${language.locale}
+            Locale: ${language.parsedLocale}
         """.trimIndent())
 
         if (appContext != null) {

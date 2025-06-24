@@ -1,6 +1,7 @@
 package io.genstrings
 
 import com.android.build.api.variant.AndroidComponentsExtension
+import io.genstrings.common.AndroidLocaleQualifier
 import io.genstrings.plugin.GenstringsExtension.Companion.registerExtension
 import io.genstrings.task.CreateTemplateTask
 import io.genstrings.task.ProcessStringsYamlToXmlTask
@@ -92,14 +93,14 @@ class GenstringsPlugin : Plugin<Project> {
             }
             val taskName = buildString {
                 append("genstringsTranslate")
-                entry.name.split("-").forEach {
+                AndroidLocaleQualifier.parse(entry.name).toString().split("-").forEach {
                     append(it.cap())
                 }
             }
             target.tasks.register(
                 taskName, TranslateTask::class.java
             ) { task ->
-                task.description = "Generate translations for locale: ${entry.name}"
+                task.description = "Generate translations for ${entry.description}"
                 task.configFile.set(extension.configFile)
                 task.sourceYamlFiles.from(sourceYamlFiles)
                 task.languages.set(language)
