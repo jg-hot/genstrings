@@ -7,10 +7,8 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.nio.file.Files
 import kotlin.io.path.listDirectoryEntries
@@ -25,8 +23,7 @@ abstract class UpdateTranslationsYamlTask : DefaultTask() {
     @get:Input
     abstract val languages: ListProperty<Language>
 
-    @get:InputDirectory
-    @get:PathSensitive(PathSensitivity.RELATIVE)
+    @get:OutputDirectory
     abstract val translationsDir: DirectoryProperty
 
     init {
