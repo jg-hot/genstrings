@@ -1,0 +1,534 @@
+# of Locales: 789
+# of Language Families: 212
+af: Afrikaans
+    -> Afrikaans
+agq: Aghem
+    -> Aghem
+ak: Akan
+    -> Akan
+am: Amharic
+    -> Amharic
+ar: Arabic
+    * ar: Arabic -> Arabic
+    * ar-001: Arabic (world) -> Arabic
+    * ar-AE: Arabic (United Arab Emirates) -> Arabic
+    * ar-BH: Arabic (Bahrain) -> Arabic
+    * ar-DJ: Arabic (Djibouti) -> Arabic
+    * ar-DZ: Arabic (Algeria) -> Arabic
+    * ar-EG: Arabic (Egypt) -> Arabic
+    * ar-EH: Arabic (Western Sahara) -> Arabic
+    * ar-ER: Arabic (Eritrea) -> Arabic
+    * ar-IL: Arabic (Israel) -> Arabic
+    * ar-IQ: Arabic (Iraq) -> Arabic
+    * ar-JO: Arabic (Jordan) -> Arabic
+    * ar-KM: Arabic (Comoros) -> Arabic
+    * ar-KW: Arabic (Kuwait) -> Arabic
+    * ar-LB: Arabic (Lebanon) -> Arabic
+    * ar-LY: Arabic (Libya) -> Arabic
+    * ar-MA: Arabic (Morocco) -> Arabic
+    * ar-MR: Arabic (Mauritania) -> Arabic
+    * ar-OM: Arabic (Oman) -> Arabic
+    * ar-PS: Arabic (Palestine) -> Arabic
+    * ar-QA: Arabic (Qatar) -> Arabic
+    * ar-SA: Arabic (Saudi Arabia) -> Arabic
+    * ar-SD: Arabic (Sudan) -> Arabic
+    * ar-SO: Arabic (Somalia) -> Arabic
+    * ar-SS: Arabic (South Sudan) -> Arabic
+    * ar-SY: Arabic (Syria) -> Arabic
+    * ar-TD: Arabic (Chad) -> Arabic
+    * ar-TN: Arabic (Tunisia) -> Arabic
+    * ar-XB: Arabic (Pseudo-Bidi) -> English
+    * ar-YE: Arabic (Yemen) -> Arabic
+as: Assamese
+    -> Assamese
+asa: Asu
+    -> Asu
+ast: Asturian
+    -> Asturian
+az: Azerbaijani [ScriptInfo(code=Cyrl, name=Cyrillic), ScriptInfo(code=Latn, name=Latin)]
+    * az: Azerbaijani -> Azerbaijani (Latin)
+    * az-Cyrl: Azerbaijani (Cyrillic) -> Azerbaijani (Cyrillic)
+    * az-Cyrl-AZ: Azerbaijani (Cyrillic,Azerbaijan) -> Azerbaijani (Cyrillic)
+    * az-Latn: Azerbaijani (Latin) -> Azerbaijani (Latin)
+    * az-Latn-AZ: Azerbaijani (Latin,Azerbaijan) -> Azerbaijani (Latin)
+bas: Basaa
+    -> Basaa
+be: Belarusian
+    -> Belarusian
+bem: Bemba
+    -> Bemba
+bez: Bena
+    -> Bena
+bg: Bulgarian
+    -> Bulgarian
+bm: Bambara
+    -> Bambara
+bn: Bangla
+    -> Bangla
+bo: Tibetan
+    -> Tibetan
+br: Breton
+    -> Breton
+brx: Bodo
+    -> Bodo
+bs: Bosnian [ScriptInfo(code=Cyrl, name=Cyrillic), ScriptInfo(code=Latn, name=Latin)]
+    * bs: Bosnian -> Bosnian (Latin)
+    * bs-Cyrl: Bosnian (Cyrillic) -> Bosnian (Cyrillic)
+    * bs-Cyrl-BA: Bosnian (Cyrillic,Bosnia & Herzegovina) -> Bosnian (Cyrillic)
+    * bs-Latn: Bosnian (Latin) -> Bosnian (Latin)
+    * bs-Latn-BA: Bosnian (Latin,Bosnia & Herzegovina) -> Bosnian (Latin)
+ca: Catalan
+    -> Catalan
+ccp: Chakma
+    -> Chakma
+ce: Chechen
+    -> Chechen
+ceb: Cebuano
+    -> Cebuano
+cgg: Chiga
+    -> Chiga
+chr: Cherokee
+    -> Cherokee
+ckb: Central Kurdish
+    -> Central Kurdish
+cs: Czech
+    -> Czech
+cy: Welsh
+    -> Welsh
+da: Danish
+    -> Danish
+dav: Taita
+    -> Taita
+de: German
+    -> German
+dje: Zarma
+    -> Zarma
+doi: Dogri
+    -> Dogri
+dsb: Lower Sorbian
+    -> Lower Sorbian
+dua: Duala
+    -> Duala
+dyo: Jola-Fonyi
+    -> Jola-Fonyi
+dz: Dzongkha
+    -> Dzongkha
+ebu: Embu
+    -> Embu
+ee: Ewe
+    -> Ewe
+el: Greek
+    -> Greek
+en: English
+    -> English
+eo: Esperanto
+    -> Esperanto
+es: Spanish
+    -> Spanish
+et: Estonian
+    -> Estonian
+eu: Basque
+    -> Basque
+ewo: Ewondo
+    -> Ewondo
+fa: Persian
+    -> Persian
+ff: Fulah [ScriptInfo(code=Adlm, name=Adlam), ScriptInfo(code=Latn, name=Latin)]
+    * ff: Fulah -> Fula (Latin)
+    * ff-Adlm: Fulah (Adlam) -> Fula (Adlam)
+    * ff-Adlm-BF: Fulah (Adlam,Burkina Faso) -> Fula (Adlam)
+    * ff-Adlm-CM: Fulah (Adlam,Cameroon) -> Fula (Adlam)
+    * ff-Adlm-GH: Fulah (Adlam,Ghana) -> Fula (Adlam)
+    * ff-Adlm-GM: Fulah (Adlam,Gambia) -> Fula (Adlam)
+    * ff-Adlm-GN: Fulah (Adlam,Guinea) -> Fula (Adlam)
+    * ff-Adlm-GW: Fulah (Adlam,Guinea-Bissau) -> Fula (Adlam)
+    * ff-Adlm-LR: Fulah (Adlam,Liberia) -> Fula (Adlam)
+    * ff-Adlm-MR: Fulah (Adlam,Mauritania) -> Fula (Adlam)
+    * ff-Adlm-NE: Fulah (Adlam,Niger) -> Fula (Adlam)
+    * ff-Adlm-NG: Fulah (Adlam,Nigeria) -> Fula (Adlam)
+    * ff-Adlm-SL: Fulah (Adlam,Sierra Leone) -> Fula (Adlam)
+    * ff-Adlm-SN: Fulah (Adlam,Senegal) -> Fula (Adlam)
+    * ff-Latn: Fulah (Latin) -> Fula (Latin)
+    * ff-Latn-BF: Fulah (Latin,Burkina Faso) -> Fula (Latin)
+    * ff-Latn-CM: Fulah (Latin,Cameroon) -> Fula (Latin)
+    * ff-Latn-GH: Fulah (Latin,Ghana) -> Fula (Latin)
+    * ff-Latn-GM: Fulah (Latin,Gambia) -> Fula (Latin)
+    * ff-Latn-GN: Fulah (Latin,Guinea) -> Fula (Latin)
+    * ff-Latn-GW: Fulah (Latin,Guinea-Bissau) -> Fula (Latin)
+    * ff-Latn-LR: Fulah (Latin,Liberia) -> Fula (Latin)
+    * ff-Latn-MR: Fulah (Latin,Mauritania) -> Fula (Latin)
+    * ff-Latn-NE: Fulah (Latin,Niger) -> Fula (Latin)
+    * ff-Latn-NG: Fulah (Latin,Nigeria) -> Fula (Latin)
+    * ff-Latn-SL: Fulah (Latin,Sierra Leone) -> Fula (Latin)
+    * ff-Latn-SN: Fulah (Latin,Senegal) -> Fula (Latin)
+fi: Finnish
+    -> Finnish
+fil: Filipino
+    -> Filipino
+fo: Faroese
+    -> Faroese
+fr: French
+    -> French
+fur: Friulian
+    -> Friulian
+fy: Western Frisian
+    -> Western Frisian
+ga: Irish
+    -> Irish
+gd: Scottish Gaelic
+    -> Scottish Gaelic
+gl: Galician
+    -> Galician
+gsw: Swiss German
+    -> Swiss German
+gu: Gujarati
+    -> Gujarati
+guz: Gusii
+    -> Gusii
+gv: Manx
+    -> Manx
+ha: Hausa
+    -> Hausa
+haw: Hawaiian
+    -> Hawaiian
+iw: Hebrew
+    -> English
+hi: Hindi
+    -> Hindi
+hr: Croatian
+    -> Croatian
+hsb: Upper Sorbian
+    -> Upper Sorbian
+hu: Hungarian
+    -> Hungarian
+hy: Armenian
+    -> Armenian
+ia: Interlingua
+    -> Interlingua
+in: Indonesian
+    -> English
+ig: Igbo
+    -> Igbo
+ii: Sichuan Yi
+    -> Sichuan Yi
+is: Icelandic
+    -> Icelandic
+it: Italian
+    -> Italian
+ja: Japanese
+    -> Japanese
+jgo: Ngomba
+    -> Ngomba
+jmc: Machame
+    -> Machame
+jv: Javanese
+    -> Javanese
+ka: Georgian
+    -> Georgian
+kab: Kabyle
+    -> Kabyle
+kam: Kamba
+    -> Kamba
+kde: Makonde
+    -> Makonde
+kea: Kabuverdianu
+    -> Kabuverdianu
+khq: Koyra Chiini
+    -> Koyra Chiini
+ki: Kikuyu
+    -> Kikuyu
+kk: Kazakh
+    -> Kazakh (Cyrillic)
+kkj: Kako
+    -> Kako
+kl: Kalaallisut
+    -> Kalaallisut
+kln: Kalenjin
+    -> Kalenjin
+km: Khmer
+    -> Khmer
+kn: Kannada
+    -> Kannada
+ko: Korean
+    -> Korean
+kok: Konkani
+    -> Konkani (Devanagari)
+ks: Kashmiri [ScriptInfo(code=Arab, name=Arabic)]
+    -> Kashmiri (Arabic)
+ksb: Shambala
+    -> Shambala
+ksf: Bafia
+    -> Bafia
+ksh: Colognian
+    -> Colognian
+ku: Kurdish
+    -> Kurdish
+kw: Cornish
+    -> Cornish
+ky: Kyrgyz
+    -> Kyrgyz
+lag: Langi
+    -> Langi
+lb: Luxembourgish
+    -> Luxembourgish
+lg: Ganda
+    -> Ganda
+lkt: Lakota
+    -> Lakota
+ln: Lingala
+    -> Lingala
+lo: Lao
+    -> Lao
+lrc: Northern Luri
+    -> Northern Luri
+lt: Lithuanian
+    -> Lithuanian
+lu: Luba-Katanga
+    -> Luba-Katanga
+luo: Luo
+    -> Luo
+luy: Luyia
+    -> Luyia
+lv: Latvian
+    -> Latvian
+mai: Maithili
+    -> Maithili
+mas: Masai
+    -> Masai
+mer: Meru
+    -> Meru
+mfe: Morisyen
+    -> Morisyen
+mg: Malagasy
+    -> Malagasy
+mgh: Makhuwa-Meetto
+    -> Makhuwa-Meetto
+mgo: Metaʼ
+    -> Metaʼ
+mi: Māori
+    -> Māori
+mk: Macedonian
+    -> Macedonian
+ml: Malayalam
+    -> Malayalam
+mn: Mongolian
+    -> Mongolian
+mni: Manipuri [ScriptInfo(code=Beng, name=Bangla)]
+    -> Manipuri (Bangla)
+mr: Marathi
+    -> Marathi
+ms: Malay
+    -> Malay
+mt: Maltese
+    -> Maltese
+mua: Mundang
+    -> Mundang
+my: Burmese
+    -> Burmese
+mzn: Mazanderani
+    -> Mazanderani
+naq: Nama
+    -> Nama
+nb: Norwegian Bokmål
+    -> Norwegian Bokmål
+nd: North Ndebele
+    -> North Ndebele
+ne: Nepali
+    -> Nepali
+nl: Dutch
+    -> Dutch
+nmg: Kwasio
+    -> Kwasio
+nn: Norwegian Nynorsk
+    -> Norwegian Nynorsk
+nnh: Ngiemboon
+    -> Ngiemboon
+no: Norwegian
+    -> Norwegian
+nus: Nuer
+    -> Nuer
+nyn: Nyankole
+    -> Nyankole
+om: Oromo
+    -> Oromo
+or: Odia
+    -> Odia
+os: Ossetic
+    -> Ossetic
+pa: Punjabi [ScriptInfo(code=Arab, name=Arabic), ScriptInfo(code=Guru, name=Gurmukhi)]
+    * pa: Punjabi -> Punjabi (Gurmukhi)
+    * pa-Arab: Punjabi (Arabic) -> Punjabi (Arabic)
+    * pa-Arab-PK: Punjabi (Arabic,Pakistan) -> Punjabi (Arabic)
+    * pa-Guru: Punjabi (Gurmukhi) -> Punjabi (Gurmukhi)
+    * pa-Guru-IN: Punjabi (Gurmukhi,India) -> Punjabi (Gurmukhi)
+pcm: Nigerian Pidgin
+    -> Nigerian Pidgin
+pl: Polish
+    -> Polish
+ps: Pashto
+    -> Pashto
+pt: Portuguese
+    -> Portuguese
+qu: Quechua
+    -> Quechua
+rm: Romansh
+    -> Romansh
+rn: Rundi
+    -> Rundi
+ro: Romanian
+    -> Romanian
+rof: Rombo
+    -> Rombo
+ru: Russian
+    -> Russian
+rw: Kinyarwanda
+    -> Kinyarwanda
+rwk: Rwa
+    -> Rwa
+sa: Sanskrit
+    -> Sanskrit
+sah: Sakha
+    -> Yakut
+saq: Samburu
+    -> Samburu
+sat: Santali [ScriptInfo(code=Olck, name=Ol Chiki)]
+    -> Santali (Ol Chiki)
+sbp: Sangu
+    -> Sangu
+sc: Sardinian
+    -> Sardinian
+sd: Sindhi [ScriptInfo(code=Arab, name=Arabic), ScriptInfo(code=Deva, name=Devanagari)]
+    * sd: Sindhi -> Sindhi (Arabic)
+    * sd-Arab: Sindhi (Arabic) -> Sindhi (Arabic)
+    * sd-Arab-PK: Sindhi (Arabic,Pakistan) -> Sindhi (Arabic)
+    * sd-Deva: Sindhi (Devanagari) -> Sindhi (Devanagari)
+    * sd-Deva-IN: Sindhi (Devanagari,India) -> Sindhi (Devanagari)
+se: Northern Sami
+    -> Northern Sami
+seh: Sena
+    -> Sena
+ses: Koyraboro Senni
+    -> Koyraboro Senni
+sg: Sango
+    -> Sango
+shi: Tachelhit [ScriptInfo(code=Latn, name=Latin), ScriptInfo(code=Tfng, name=Tifinagh)]
+    * shi: Tachelhit -> Tachelhit (Tifinagh)
+    * shi-Latn: Tachelhit (Latin) -> Tachelhit (Latin)
+    * shi-Latn-MA: Tachelhit (Latin,Morocco) -> Tachelhit (Latin)
+    * shi-Tfng: Tachelhit (Tifinagh) -> Tachelhit (Tifinagh)
+    * shi-Tfng-MA: Tachelhit (Tifinagh,Morocco) -> Tachelhit (Tifinagh)
+si: Sinhala
+    -> Sinhala
+sk: Slovak
+    -> Slovak
+sl: Slovenian
+    -> Slovenian
+smn: Inari Sami
+    -> Inari Sami
+sn: Shona
+    -> Shona
+so: Somali
+    -> Somali
+sq: Albanian
+    -> Albanian
+sr: Serbian [ScriptInfo(code=Cyrl, name=Cyrillic), ScriptInfo(code=Latn, name=Latin)]
+    * sr: Serbian -> Serbian (Cyrillic)
+    * sr-Cyrl: Serbian (Cyrillic) -> Serbian (Cyrillic)
+    * sr-Cyrl-BA: Serbian (Cyrillic,Bosnia & Herzegovina) -> Serbian (Cyrillic)
+    * sr-Cyrl-ME: Serbian (Cyrillic,Montenegro) -> Serbian (Cyrillic)
+    * sr-Cyrl-RS: Serbian (Cyrillic,Serbia) -> Serbian (Cyrillic)
+    * sr-Cyrl-XK: Serbian (Cyrillic,Kosovo) -> Serbian (Cyrillic)
+    * sr-Latn: Serbian (Latin) -> Serbian (Latin)
+    * sr-Latn-BA: Serbian (Latin,Bosnia & Herzegovina) -> Serbian (Latin)
+    * sr-Latn-ME: Serbian (Latin,Montenegro) -> Serbian (Latin)
+    * sr-Latn-RS: Serbian (Latin,Serbia) -> Serbian (Latin)
+    * sr-Latn-XK: Serbian (Latin,Kosovo) -> Serbian (Latin)
+su: Sundanese [ScriptInfo(code=Latn, name=Latin)]
+    -> Sundanese (Latin)
+sv: Swedish
+    -> Swedish
+sw: Swahili
+    -> Swahili
+ta: Tamil
+    -> Tamil
+te: Telugu
+    -> Telugu
+teo: Teso
+    -> Teso
+tg: Tajik
+    -> Tajik
+th: Thai
+    -> Thai
+ti: Tigrinya
+    -> Tigrinya
+tk: Turkmen
+    -> Turkmen
+to: Tongan
+    -> Tongan
+tr: Turkish
+    -> Turkish
+tt: Tatar
+    -> Tatar
+twq: Tasawaq
+    -> Tasawaq
+tzm: Central Atlas Tamazight
+    -> Central Atlas Tamazight
+ug: Uyghur
+    -> Uyghur
+uk: Ukrainian
+    -> Ukrainian
+ur: Urdu
+    -> Urdu
+uz: Uzbek [ScriptInfo(code=Arab, name=Arabic), ScriptInfo(code=Cyrl, name=Cyrillic), ScriptInfo(code=Latn, name=Latin)]
+    * uz: Uzbek -> Uzbek (Latin)
+    * uz-Arab: Uzbek (Arabic) -> Uzbek (Arabic)
+    * uz-Arab-AF: Uzbek (Arabic,Afghanistan) -> Uzbek (Arabic)
+    * uz-Cyrl: Uzbek (Cyrillic) -> Uzbek (Cyrillic)
+    * uz-Cyrl-UZ: Uzbek (Cyrillic,Uzbekistan) -> Uzbek (Cyrillic)
+    * uz-Latn: Uzbek (Latin) -> Uzbek (Latin)
+    * uz-Latn-UZ: Uzbek (Latin,Uzbekistan) -> Uzbek (Latin)
+vai: Vai [ScriptInfo(code=Latn, name=Latin), ScriptInfo(code=Vaii, name=Vai)]
+    * vai: Vai -> Vai (Vai)
+    * vai-Latn: Vai (Latin) -> Vai (Latin)
+    * vai-Latn-LR: Vai (Latin,Liberia) -> Vai (Latin)
+    * vai-Vaii: Vai (Vai) -> Vai (Vai)
+    * vai-Vaii-LR: Vai (Vai,Liberia) -> Vai (Vai)
+vi: Vietnamese
+    -> Vietnamese
+vun: Vunjo
+    -> Vunjo
+wae: Walser
+    -> Walser
+wo: Wolof
+    -> Wolof
+xh: Xhosa
+    -> Xhosa
+xog: Soga
+    -> Soga
+yav: Yangben
+    -> Yangben
+ji: Yiddish
+    -> English
+yo: Yoruba
+    -> Yoruba
+yue: Cantonese [ScriptInfo(code=Hans, name=Simplified Han), ScriptInfo(code=Hant, name=Traditional Han)]
+    * yue: Cantonese -> Cantonese (Traditional Han)
+    * yue-Hans: Cantonese (Simplified Han) -> Cantonese (Simplified Han)
+    * yue-Hans-CN: Cantonese (Simplified Han,China) -> Cantonese (Simplified Han)
+    * yue-Hant: Cantonese (Traditional Han) -> Cantonese (Traditional Han)
+    * yue-Hant-HK: Cantonese (Traditional Han,Hong Kong) -> Cantonese (Traditional Han)
+zgh: Standard Moroccan Tamazight
+    -> Standard Moroccan Tamazight
+zh: Chinese [ScriptInfo(code=Hans, name=Simplified Han), ScriptInfo(code=Hant, name=Traditional Han)]
+    * zh: Chinese -> Chinese (Simplified Han)
+    * zh-Hans: Chinese (Simplified Han) -> Chinese (Simplified Han)
+    * zh-Hans-CN: Chinese (Simplified Han,China) -> Chinese (Simplified Han)
+    * zh-Hans-HK: Chinese (Simplified Han,Hong Kong) -> Chinese (Simplified Han)
+    * zh-Hans-MO: Chinese (Simplified Han,Macao) -> Chinese (Simplified Han)
+    * zh-Hans-SG: Chinese (Simplified Han,Singapore) -> Chinese (Simplified Han)
+    * zh-Hant: Chinese (Traditional Han) -> Chinese (Traditional Han)
+    * zh-Hant-HK: Chinese (Traditional Han,Hong Kong) -> Chinese (Traditional Han)
+    * zh-Hant-MO: Chinese (Traditional Han,Macao) -> Chinese (Traditional Han)
+    * zh-Hant-TW: Chinese (Traditional Han,Taiwan) -> Chinese (Traditional Han)
+zu: Zulu
+    -> Zulu
