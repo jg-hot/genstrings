@@ -39,7 +39,16 @@ data class StringsTemplate(
 
     companion object {
         fun decodeAndPostProcess(input: InputStream): StringsTemplate {
-            return Serializers.yaml.decodeFromStream<StringsTemplate>(input).copyPostProcessed()
+            val template = Serializers.yaml.decodeFromStream<StringsTemplate>(input)
+                .copyPostProcessed()
+            // ensure string names are unique
+            val duplicates = template.strings
+                .groupBy { it.name }
+                .filter { it.value.size > 1 }
+            if (duplicates.isNotEmpty()) {
+                throw Exception("Duplicate string name in template: ${duplicates.keys}")
+            }
+            return template
         }
     }
 }
